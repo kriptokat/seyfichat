@@ -38,13 +38,24 @@
             box-shadow: none;
         }
 
-        /* Üst başlık alanı - SEYFİÇET logosu */
+        /* Üst başlık alanı - SEYFİÇET logosu + P2P yazısı */
         .app-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 8px 16px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             flex-shrink: 0;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .header-text {
+            flex: 1;
         }
 
         .app-header h2 {
@@ -52,24 +63,29 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        .sub-title {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
         }
 
         .chat-header {
             background: #4a90e2;
             color: white;
-            padding: 10px 16px;
+            padding: 8px 16px;
             text-align: center;
             flex-shrink: 0;
         }
 
-        .chat-header h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
         .connection-status {
             font-size: 0.65rem;
-            margin-top: 4px;
+            margin-top: 3px;
             color: #f0f0f0;
         }
 
@@ -124,7 +140,6 @@
             color: #334155;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.1s;
         }
 
         .copy-id-btn:active {
@@ -150,7 +165,7 @@
             gap: 8px;
         }
 
-        .add-contact-btn, .clear-all-btn {
+        .add-contact-btn, .clear-messages-btn {
             background: #4a90e2;
             color: white;
             border: none;
@@ -161,12 +176,12 @@
             cursor: pointer;
         }
 
-        .clear-all-btn {
-            background: #ef4444;
+        .clear-messages-btn {
+            background: #f59e0b;
         }
 
-        .clear-all-btn:active {
-            background: #dc2626;
+        .clear-messages-btn:active {
+            background: #d97706;
             transform: scale(0.96);
         }
 
@@ -227,7 +242,6 @@
             cursor: pointer;
             padding: 4px 8px;
             border-radius: 18px;
-            transition: background 0.1s;
             font-weight: 500;
         }
 
@@ -316,6 +330,33 @@
             color: #334155;
         }
 
+        /* Emoji seçici */
+        .emoji-picker {
+            position: absolute;
+            bottom: 70px;
+            left: 10px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            z-index: 100;
+            max-width: 280px;
+            border: 1px solid #e2e8f0;
+        }
+        .emoji-picker span {
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .emoji-picker span:active {
+            background: #e2e8f0;
+        }
+
         /* Mesaj alanı */
         .messages-area {
             flex: 1;
@@ -365,6 +406,20 @@
             border-bottom-left-radius: 4px;
         }
 
+        .message-content.file-message {
+            background: #eef2ff;
+            cursor: pointer;
+        }
+        .sent .message-content.file-message {
+            background: #3b82f6;
+        }
+        .message-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
         .message-time {
             font-size: 0.6rem;
             color: #64748b;
@@ -392,7 +447,7 @@
             font-weight: 600;
         }
 
-        /* Input alanı - gönder tuşu mesaj kutusuna daha yakın, tam sığacak */
+        /* Input alanı - butonlar düzenli */
         .input-area {
             padding: 10px 12px;
             background: white;
@@ -401,6 +456,27 @@
             gap: 6px;
             align-items: center;
             flex-shrink: 0;
+            position: relative;
+        }
+
+        .input-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 28px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+            background: #e2e8f0;
         }
 
         #messageInput {
@@ -411,12 +487,6 @@
             outline: none;
             font-size: 0.95rem;
             background: #ffffff;
-            transition: border 0.2s;
-        }
-
-        #messageInput:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 2px rgba(74,144,226,0.15);
         }
 
         #sendButton {
@@ -426,26 +496,18 @@
             border: none;
             border-radius: 28px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.1s;
-            min-width: 70px;
         }
 
         #sendButton:active {
             transform: scale(0.96);
-            background: #357abd;
         }
 
         #sendButton:disabled {
             background: #b9c8f0;
             cursor: not-allowed;
-            transform: none;
-        }
-
-        button:active {
-            transform: scale(0.96);
         }
 
         .retry-badge {
@@ -457,80 +519,27 @@
             color: white;
         }
 
-        /* Konfirmasyon modalı */
-        .confirm-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1100;
-        }
-        .confirm-content {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            width: 280px;
-            text-align: center;
-        }
-        .confirm-content p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #1e293b;
-        }
-        .confirm-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-        .confirm-buttons button {
-            padding: 8px 20px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .confirm-yes {
-            background: #ef4444;
-            color: white;
-        }
-        .confirm-no {
-            background: #e2e8f0;
-            color: #334155;
-        }
-
         @media (max-width: 480px) {
-            .contacts-list {
-                max-height: 115px;
-            }
-            #sendButton {
-                padding: 10px 16px;
-                min-width: 65px;
-                font-size: 0.85rem;
-            }
-            #messageInput {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            .input-area {
-                padding: 8px 12px;
-            }
+            .contacts-list { max-height: 115px; }
+            .icon-btn { padding: 6px 10px; font-size: 1rem; }
+            #sendButton { padding: 10px 14px; min-width: 60px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <!-- SEYFİÇET başlığı en üstte -->
+        <!-- SEYFİÇET başlığı + logo + P2P yazısı -->
         <div class="app-header">
-            <h2>SEYFİÇET</h2>
+            <div class="logo-icon">💬</div>
+            <div class="header-text">
+                <h2>SEYFİÇET</h2>
+                <div class="sub-title">
+                    <span>🔒 P2P Mesajlaşma</span>
+                </div>
+            </div>
         </div>
         
         <div class="chat-header">
-            <h1>💬 P2P Mesajlaşma</h1>
             <div class="connection-status" id="status">Bağlantı bekleniyor...</div>
         </div>
 
@@ -545,7 +554,7 @@
             <div class="contacts-header">
                 <span class="contacts-title">📒 KİŞİLERİM</span>
                 <div class="action-buttons">
-                    <button class="clear-all-btn" id="clearAllBtn">🗑 Tümünü Sil</button>
+                    <button class="clear-messages-btn" id="clearMessagesBtn">🗑 Mesajları Sil</button>
                     <button class="add-contact-btn" id="addContactBtn">+ Yeni Kişi</button>
                 </div>
             </div>
@@ -562,6 +571,11 @@
         <div class="messages-area" id="messagesArea"></div>
 
         <div class="input-area">
+            <div class="input-buttons">
+                <button class="icon-btn" id="emojiBtn" title="Emoji">😊</button>
+                <button class="icon-btn" id="fileBtn" title="Dosya">📎</button>
+                <button class="icon-btn" id="imageBtn" title="Resim">🖼️</button>
+            </div>
             <input type="text" id="messageInput" placeholder="Mesaj yaz..." disabled>
             <button id="sendButton" disabled>Gönder</button>
         </div>
@@ -571,7 +585,7 @@
     <div id="contactModal" style="display: none;" class="modal-overlay">
         <div class="modal-content">
             <h3>➕ Yeni Kişi Ekle</h3>
-            <input type="text" id="contactNameInput" placeholder="Kişi adı (ör: Ahmet Yılmaz)" autocomplete="off">
+            <input type="text" id="contactNameInput" placeholder="Kişi adı" autocomplete="off">
             <input type="text" id="contactPeerIdInput" placeholder="Karşı tarafın Peer ID'si" autocomplete="off">
             <div class="modal-buttons">
                 <button class="modal-cancel" id="modalCancelBtn">Vazgeç</button>
@@ -592,16 +606,17 @@
         let activeContactName = "";
         let reconnectTimer = null;
         let isManualDisconnect = false;
+        let emojiPicker = null;
 
         let contacts = [];
         let messagesHistory = {};
 
-        // DOM elementleri
+        // DOM
         const myPeerIdDiv = document.getElementById('myPeerId');
         const copyIdBtn = document.getElementById('copyIdBtn');
         const contactsListDiv = document.getElementById('contactsList');
         const addContactBtn = document.getElementById('addContactBtn');
-        const clearAllBtn = document.getElementById('clearAllBtn');
+        const clearMessagesBtn = document.getElementById('clearMessagesBtn');
         const modal = document.getElementById('contactModal');
         const contactNameInput = document.getElementById('contactNameInput');
         const contactPeerIdInput = document.getElementById('contactPeerIdInput');
@@ -613,6 +628,9 @@
         const statusDiv = document.getElementById('status');
         const activeContactNameSpan = document.getElementById('activeContactName');
         const connectionRetryBadge = document.getElementById('connectionRetryBadge');
+        const emojiBtn = document.getElementById('emojiBtn');
+        const fileBtn = document.getElementById('fileBtn');
+        const imageBtn = document.getElementById('imageBtn');
 
         function escapeHtml(str) {
             if (!str) return '';
@@ -624,71 +642,37 @@
             });
         }
 
-        // Kalıcı ID oluştur veya yükle
         function getOrCreatePermanentId() {
             let savedId = localStorage.getItem('p2p_my_permanent_id');
-            if (savedId && savedId.trim() !== "") {
-                return savedId;
-            }
+            if (savedId && savedId.trim() !== "") return savedId;
             const newId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
             localStorage.setItem('p2p_my_permanent_id', newId);
             return newId;
         }
 
-        // PeerJS başlat
         function initPeerWithPermanentId() {
             myPermanentId = getOrCreatePermanentId();
             myPeerIdDiv.textContent = myPermanentId;
-            
             peer = new Peer(myPermanentId, {
                 debug: 0,
-                config: {
-                    iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' },
-                        { urls: 'stun:stun1.l.google.com:19302' }
-                    ]
-                }
+                config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
             });
-            
-            peer.on('open', (id) => {
-                if (id === myPermanentId) {
-                    statusDiv.innerHTML = '✅ Kalıcı ID aktif! Kişi ekleyip bağlanabilirsiniz.';
-                    statusDiv.style.color = '#d1fae5';
-                }
-            });
-            
+            peer.on('open', (id) => { if (id === myPermanentId) statusDiv.innerHTML = '✅ Kalıcı ID aktif!'; });
             peer.on('error', (err) => {
-                console.error('Peer hatası:', err);
                 if (err.type === 'unavailable-id') {
                     localStorage.removeItem('p2p_my_permanent_id');
                     myPermanentId = getOrCreatePermanentId();
                     peer.destroy();
                     initPeerWithPermanentId();
-                } else {
-                    statusDiv.innerHTML = '⚠️ Bağlantı sorunu';
                 }
             });
-            
-            peer.on('disconnected', () => {
-                if (!isManualDisconnect) {
-                    statusDiv.innerHTML = '🔄 Sunucu bağlantısı yenileniyor...';
-                    peer.reconnect();
-                }
-            });
-            
+            peer.on('disconnected', () => { if (!isManualDisconnect) peer.reconnect(); });
             peer.on('connection', handleIncomingConnection);
         }
 
         function handleIncomingConnection(incomingConn) {
-            const remotePeerId = incomingConn.peer;
-            const contact = contacts.find(c => c.peerId === remotePeerId);
-            
-            if (!contact) {
-                incomingConn.close();
-                addSystemMessageToActive('Tanınmayan bağlantı isteği reddedildi.');
-                return;
-            }
-            
+            const contact = contacts.find(c => c.peerId === incomingConn.peer);
+            if (!contact) { incomingConn.close(); return; }
             if (currentConnection) currentConnection.close();
             currentConnection = incomingConn;
             activeContactId = contact.id;
@@ -697,7 +681,7 @@
             activeContactNameSpan.textContent = contact.name;
             renderMessagesForActiveContact();
             setupConnectionEvents(currentConnection, contact.name);
-            addSystemMessageToActive(`${contact.name} sizinle bağlantı kurdu.`);
+            addSystemMessage(`${contact.name} sizinle bağlantı kurdu.`);
             setConnectedState(true);
         }
 
@@ -705,29 +689,31 @@
             connection.on('open', () => {
                 setConnectedState(true);
                 statusDiv.innerHTML = `✅ ${contactName} ile bağlantı aktif`;
-                addSystemMessageToActive(`${contactName} ile görüşmeye hazırsınız.`);
+                addSystemMessage(`${contactName} ile görüşmeye hazırsınız.`);
                 hideRetryBadge();
                 if (reconnectTimer) clearTimeout(reconnectTimer);
             });
-            
             connection.on('data', (data) => {
-                if (data && data.text && activeContactId) {
-                    addMessageToUIAndHistory(activeContactId, data.text, contactName, false);
+                if (activeContactId) {
+                    if (data.type === 'text') {
+                        addMessageToHistory(activeContactId, data.text, contactName, false, 'text');
+                    } else if (data.type === 'file') {
+                        addMessageToHistory(activeContactId, data.name || 'Dosya', contactName, false, 'file', data.data, data.mime);
+                    } else if (data.type === 'image') {
+                        addMessageToHistory(activeContactId, data.name || 'Resim', contactName, false, 'image', data.data, data.mime);
+                    }
                 }
             });
-            
             connection.on('close', () => {
                 if (currentConnection === connection) {
-                    addSystemMessageToActive(`${contactName} bağlantıyı kapattı.`);
+                    addSystemMessage(`${contactName} bağlantıyı kapattı.`);
                     setConnectedState(false);
                     currentConnection = null;
                     scheduleReconnect();
                 }
             });
-            
-            connection.on('error', (err) => {
+            connection.on('error', () => {
                 if (currentConnection === connection) {
-                    addSystemMessageToActive(`${contactName} bağlantı hatası`);
                     setConnectedState(false);
                     currentConnection = null;
                     scheduleReconnect();
@@ -742,10 +728,7 @@
             reconnectTimer = setTimeout(() => {
                 if (!isConnected && activeContactId) {
                     const contact = contacts.find(c => c.id === activeContactId);
-                    if (contact) {
-                        addSystemMessageToActive(`${contact.name} için yeniden bağlanılıyor...`);
-                        initiateConnectionToPeer(contact.peerId, contact.name);
-                    }
+                    if (contact) initiateConnectionToPeer(contact.peerId, contact.name);
                 }
                 hideRetryBadge();
             }, 3000);
@@ -755,19 +738,12 @@
             if (!peer) return;
             if (currentConnection) currentConnection.close();
             isManualDisconnect = false;
-            statusDiv.innerHTML = `🔄 ${contactName} bağlanıyor...`;
             const newConn = peer.connect(peerId);
             if (!newConn) return;
             currentConnection = newConn;
             setupConnectionEvents(currentConnection, contactName);
-            
             setTimeout(() => {
-                if (currentConnection === newConn && !isConnected) {
-                    addSystemMessageToActive(`${contactName} bağlantı zaman aşımı`);
-                    setConnectedState(false);
-                    if (currentConnection === newConn) currentConnection = null;
-                    scheduleReconnect();
-                }
+                if (currentConnection === newConn && !isConnected) scheduleReconnect();
             }, 10000);
         }
 
@@ -775,58 +751,74 @@
             isConnected = connected;
             messageInput.disabled = !connected;
             sendButton.disabled = !connected;
-            if (!connected) {
-                statusDiv.innerHTML = '❌ Bağlantı kesildi, otomatik yeniden bağlanılıyor...';
-            }
         }
 
         function showRetryBadge() { if (connectionRetryBadge) connectionRetryBadge.style.display = 'inline-block'; }
         function hideRetryBadge() { if (connectionRetryBadge) connectionRetryBadge.style.display = 'none'; }
 
-        function sendMessageToActive() {
+        // Mesaj gönderme
+        function sendTextMessage() {
             if (!isConnected || !currentConnection || !activeContactId) {
-                addSystemMessageToActive('Önce bir kişi seçip bağlanın.');
+                addSystemMessage('Önce bir kişi seçip bağlanın.');
                 return;
             }
             const text = messageInput.value.trim();
             if (!text) return;
-            const payload = { text: text, sender: activeContactName, timestamp: Date.now() };
-            currentConnection.send(payload);
-            addMessageToUIAndHistory(activeContactId, text, 'Ben', true);
+            currentConnection.send({ type: 'text', text: text });
+            addMessageToHistory(activeContactId, text, 'Ben', true, 'text');
             messageInput.value = '';
-            messageInput.focus();
+        }
+
+        function sendFile(file, type) {
+            if (!isConnected || !currentConnection || !activeContactId) {
+                addSystemMessage('Bağlantı yok, dosya gönderilemez.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = e.target.result;
+                const payload = {
+                    type: type,
+                    name: file.name,
+                    data: data,
+                    mime: file.type
+                };
+                currentConnection.send(payload);
+                addMessageToHistory(activeContactId, file.name, 'Ben', true, type, data, file.type);
+            };
+            reader.readAsDataURL(file);
         }
 
         // Veri yönetimi
         function loadContacts() {
             const stored = localStorage.getItem('p2p_contacts_v2');
-            if (stored) { try { contacts = JSON.parse(stored); } catch(e) { contacts = []; } }
-            else { contacts = []; }
+            contacts = stored ? JSON.parse(stored) : [];
             renderContactsList();
         }
         function saveContacts() { localStorage.setItem('p2p_contacts_v2', JSON.stringify(contacts)); }
         
         function loadMessagesHistory() {
-            const storedMsg = localStorage.getItem('p2p_messages_history_v2');
-            if (storedMsg) { try { messagesHistory = JSON.parse(storedMsg); } catch(e) { messagesHistory = {}; } }
-            else { messagesHistory = {}; }
+            const stored = localStorage.getItem('p2p_messages_history_v2');
+            messagesHistory = stored ? JSON.parse(stored) : {};
         }
         function saveMessagesHistory() { localStorage.setItem('p2p_messages_history_v2', JSON.stringify(messagesHistory)); }
 
-        function addMessageToUIAndHistory(contactId, text, senderName, isSent) {
+        function addMessageToHistory(contactId, content, sender, isSent, msgType, fileData = null, mime = '') {
             if (!messagesHistory[contactId]) messagesHistory[contactId] = [];
-            messagesHistory[contactId].push({ text, senderName, timestamp: Date.now(), isSent });
+            messagesHistory[contactId].push({
+                content, sender, isSent, msgType, fileData, mime,
+                timestamp: Date.now()
+            });
             saveMessagesHistory();
             if (activeContactId === contactId) renderMessagesForActiveContact();
         }
 
-        function addSystemMessageToActive(text) {
+        function addSystemMessage(text) {
             if (!activeContactId) return;
             const msgDiv = document.createElement('div');
             msgDiv.className = 'message received';
             msgDiv.style.alignSelf = 'center';
-            msgDiv.style.maxWidth = '85%';
-            msgDiv.innerHTML = `<div class="message-content" style="background:#eef2ff; color:#334155; font-size:0.7rem; padding:5px 10px;">📡 ${escapeHtml(text)}</div>`;
+            msgDiv.innerHTML = `<div class="message-content" style="background:#eef2ff; font-size:0.7rem; padding:5px 10px;">📡 ${escapeHtml(text)}</div>`;
             messagesArea.appendChild(msgDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
@@ -834,41 +826,47 @@
         function renderMessagesForActiveContact() {
             messagesArea.innerHTML = '';
             if (!activeContactId) {
-                const emptyDiv = document.createElement('div');
-                emptyDiv.className = 'message received';
-                emptyDiv.style.alignSelf = 'center';
-                emptyDiv.innerHTML = `<div class="message-content" style="background:#e2e8f0;">👈 Kişi seçin</div>`;
-                messagesArea.appendChild(emptyDiv);
+                messagesArea.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">👈 Kişi seçin</div>';
                 return;
             }
             const history = messagesHistory[activeContactId] || [];
             history.forEach(msg => {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = `message ${msg.isSent ? 'sent' : 'received'}`;
-                const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
-                msgDiv.innerHTML = `
-                    <div class="message-content">
-                        ${!msg.isSent ? `<strong>${escapeHtml(msg.senderName || activeContactName)}:</strong> ` : ''}
-                        ${escapeHtml(msg.text)}
-                    </div>
-                    <div class="message-time">${timeStr}</div>
-                `;
+                const timeStr = new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+                
+                let contentHtml = '';
+                if (msg.msgType === 'text') {
+                    contentHtml = `<div class="message-content">${!msg.isSent ? `<strong>${escapeHtml(msg.sender)}:</strong> ` : ''}${escapeHtml(msg.content)}</div>`;
+                } else if (msg.msgType === 'image') {
+                    contentHtml = `<div class="message-content file-message"><img src="${msg.fileData}" class="message-image" onclick="window.open('${msg.fileData}','_blank')" style="max-width:100%; border-radius:12px;"></div>`;
+                } else if (msg.msgType === 'file') {
+                    contentHtml = `<div class="message-content file-message" onclick="downloadFile('${msg.fileData}', '${msg.content}')">📎 ${escapeHtml(msg.content)}</div>`;
+                }
+                
+                msgDiv.innerHTML = contentHtml + `<div class="message-time">${timeStr}</div>`;
                 messagesArea.appendChild(msgDiv);
             });
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
 
+        window.downloadFile = (dataUrl, filename) => {
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = filename;
+            a.click();
+        };
+
         function renderContactsList() {
-            if (!contactsListDiv) return;
             if (contacts.length === 0) {
-                contactsListDiv.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:10px;">📭 Henüz kişi yok, + ile ekleyin</div>';
+                contactsListDiv.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:10px;">📭 Henüz kişi yok</div>';
                 return;
             }
             contactsListDiv.innerHTML = '';
             contacts.forEach(contact => {
-                const contactDiv = document.createElement('div');
-                contactDiv.className = 'contact-item';
-                contactDiv.innerHTML = `
+                const div = document.createElement('div');
+                div.className = 'contact-item';
+                div.innerHTML = `
                     <div class="contact-info">
                         <div class="contact-name">${escapeHtml(contact.name)}</div>
                         <div class="contact-peerid">${escapeHtml(contact.peerId.substring(0, 16))}...</div>
@@ -878,129 +876,119 @@
                         <button class="delete-contact-btn" data-id="${contact.id}">🗑</button>
                     </div>
                 `;
-                contactsListDiv.appendChild(contactDiv);
+                contactsListDiv.appendChild(div);
             });
             document.querySelectorAll('.connect-contact-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.dataset.id, peerId = btn.dataset.peer, name = btn.dataset.name;
-                    selectAndConnectToContact(id, peerId, name);
-                });
+                btn.onclick = () => selectAndConnectToContact(btn.dataset.id, btn.dataset.peer, btn.dataset.name);
             });
             document.querySelectorAll('.delete-contact-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.dataset.id;
-                    deleteContactById(id);
-                });
+                btn.onclick = () => deleteContactById(btn.dataset.id);
             });
         }
 
-        function selectAndConnectToContact(contactId, peerId, name) {
-            activeContactId = contactId;
+        function selectAndConnectToContact(id, peerId, name) {
+            activeContactId = id;
             activeContactPeerId = peerId;
             activeContactName = name;
             activeContactNameSpan.innerText = name;
             renderMessagesForActiveContact();
-            if (currentConnection) { currentConnection.close(); currentConnection = null; isConnected = false; setConnectedState(false); }
+            if (currentConnection) { currentConnection.close(); currentConnection = null; isConnected = false; }
             isManualDisconnect = false;
             initiateConnectionToPeer(peerId, name);
         }
 
-        function deleteContactById(contactId) {
+        function deleteContactById(id) {
             if (confirm('Kişiyi silmek mesaj geçmişini de siler. Devam?')) {
-                contacts = contacts.filter(c => c.id !== contactId);
+                contacts = contacts.filter(c => c.id !== id);
                 saveContacts();
-                if (messagesHistory[contactId]) delete messagesHistory[contactId];
+                if (messagesHistory[id]) delete messagesHistory[id];
                 saveMessagesHistory();
-                if (activeContactId === contactId) {
+                if (activeContactId === id) {
                     activeContactId = null;
-                    activeContactName = "";
                     activeContactNameSpan.innerText = "Seçili kişi yok";
-                    if (currentConnection) { currentConnection.close(); currentConnection = null; isConnected = false; setConnectedState(false); }
+                    if (currentConnection) { currentConnection.close(); currentConnection = null; }
                     renderMessagesForActiveContact();
                 }
                 renderContactsList();
             }
         }
 
-        // Tüm verileri silme
-        function clearAllData() {
-            const confirmDiv = document.createElement('div');
-            confirmDiv.className = 'confirm-modal';
-            confirmDiv.innerHTML = `
-                <div class="confirm-content">
-                    <p>⚠️ Tüm kişiler ve mesaj geçmişi silinecek. Bu işlem geri alınamaz. Devam et?</p>
-                    <div class="confirm-buttons">
-                        <button class="confirm-yes">Evet, Sil</button>
-                        <button class="confirm-no">İptal</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmDiv);
-            
-            const yesBtn = confirmDiv.querySelector('.confirm-yes');
-            const noBtn = confirmDiv.querySelector('.confirm-no');
-            
-            yesBtn.onclick = () => {
-                // Tüm verileri temizle
-                localStorage.removeItem('p2p_contacts_v2');
-                localStorage.removeItem('p2p_messages_history_v2');
-                localStorage.removeItem('p2p_my_permanent_id');
-                contacts = [];
-                messagesHistory = {};
-                if (currentConnection) { currentConnection.close(); currentConnection = null; }
-                activeContactId = null;
-                activeContactName = "";
-                activeContactNameSpan.innerText = "Seçili kişi yok";
-                setConnectedState(false);
-                renderContactsList();
+        // SADECE MESAJLARI SİL (kişiler kalır)
+        function clearMessagesOnly() {
+            if (!activeContactId) {
+                alert('Önce bir kişi seçin.');
+                return;
+            }
+            if (confirm('Bu kişiyle olan tüm mesajlaşma geçmişi silinecek. Devam et?')) {
+                messagesHistory[activeContactId] = [];
+                saveMessagesHistory();
                 renderMessagesForActiveContact();
-                statusDiv.innerHTML = '✅ Tüm veriler silindi. Sayfa yenileniyor...';
-                setTimeout(() => { location.reload(); }, 1500);
-                confirmDiv.remove();
-            };
-            noBtn.onclick = () => { confirmDiv.remove(); };
-        }
-
-        // Modal
-        function showModal() { contactNameInput.value = ''; contactPeerIdInput.value = ''; modal.style.display = 'flex'; }
-        function hideModal() { modal.style.display = 'none'; }
-        function saveNewContact() {
-            const name = contactNameInput.value.trim();
-            const peerId = contactPeerIdInput.value.trim();
-            if (!name || !peerId) { alert('Lütfen ad ve ID girin'); return; }
-            if (contacts.some(c => c.peerId === peerId)) { alert('Bu ID zaten mevcut'); return; }
-            const newId = Date.now().toString() + '_' + Math.random().toString(36);
-            contacts.push({ id: newId, name: name, peerId: peerId });
-            saveContacts();
-            renderContactsList();
-            hideModal();
-        }
-
-        function copyMyId() {
-            if (myPermanentId) {
-                navigator.clipboard.writeText(myPermanentId).then(() => {
-                    const original = copyIdBtn.textContent;
-                    copyIdBtn.textContent = '✅ Kopyalandı!';
-                    setTimeout(() => { copyIdBtn.textContent = original; }, 1500);
-                });
+                addSystemMessage('Mesaj geçmişi temizlendi.');
             }
         }
 
+        // Emoji seçici
+        function toggleEmojiPicker() {
+            if (emojiPicker) { emojiPicker.remove(); emojiPicker = null; return; }
+            emojiPicker = document.createElement('div');
+            emojiPicker.className = 'emoji-picker';
+            const emojis = ['😀', '😂', '🥰', '😎', '😢', '😡', '👍', '❤️', '🔥', '🎉', '🙏', '💯', '✨', '🍕', '☕', '🏆'];
+            emojis.forEach(emoji => {
+                const span = document.createElement('span');
+                span.textContent = emoji;
+                span.onclick = () => {
+                    messageInput.value += emoji;
+                    messageInput.focus();
+                    emojiPicker.remove();
+                    emojiPicker = null;
+                };
+                emojiPicker.appendChild(span);
+            });
+            document.body.appendChild(emojiPicker);
+            const rect = emojiBtn.getBoundingClientRect();
+            emojiPicker.style.position = 'fixed';
+            emojiPicker.style.bottom = '70px';
+            emojiPicker.style.left = rect.left + 'px';
+        }
+
+        // Dosya seç
+        function selectFile(type) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            if (type === 'image') input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) sendFile(file, type);
+            };
+            input.click();
+        }
+
         // Eventler
-        addContactBtn.addEventListener('click', showModal);
-        clearAllBtn.addEventListener('click', clearAllData);
-        modalCancelBtn.addEventListener('click', hideModal);
-        modalSaveBtn.addEventListener('click', saveNewContact);
-        sendButton.addEventListener('click', sendMessageToActive);
-        copyIdBtn.addEventListener('click', copyMyId);
-        messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && isConnected && activeContactId) sendMessageToActive(); });
-        window.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+        addContactBtn.onclick = () => { modal.style.display = 'flex'; };
+        clearMessagesBtn.onclick = clearMessagesOnly;
+        modalCancelBtn.onclick = () => { modal.style.display = 'none'; };
+        modalSaveBtn.onclick = () => {
+            const name = contactNameInput.value.trim();
+            const peerId = contactPeerIdInput.value.trim();
+            if (!name || !peerId) { alert('Lütfen bilgileri doldurun'); return; }
+            if (contacts.some(c => c.peerId === peerId)) { alert('Bu ID zaten mevcut'); return; }
+            contacts.push({ id: Date.now().toString() + '_' + Math.random(), name, peerId });
+            saveContacts();
+            renderContactsList();
+            modal.style.display = 'none';
+        };
+        sendButton.onclick = sendTextMessage;
+        copyIdBtn.onclick = () => { navigator.clipboard.writeText(myPermanentId); copyIdBtn.textContent = '✅'; setTimeout(() => copyIdBtn.textContent = '📋 Kopyala', 1500); };
+        messageInput.onkeypress = (e) => { if (e.key === 'Enter' && isConnected) sendTextMessage(); };
+        emojiBtn.onclick = toggleEmojiPicker;
+        fileBtn.onclick = () => selectFile('file');
+        imageBtn.onclick = () => selectFile('image');
+        window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; if (emojiPicker && !emojiPicker.contains(e.target) && e.target !== emojiBtn) { emojiPicker.remove(); emojiPicker = null; } };
 
         // Başlat
         loadContacts();
         loadMessagesHistory();
         initPeerWithPermanentId();
-        activeContactId = null;
         renderMessagesForActiveContact();
     </script>
 </body>
