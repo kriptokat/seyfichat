@@ -34,102 +34,235 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: relative;
+            border-radius: 0;
+            box-shadow: none;
         }
 
         .app-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 16px;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
             flex-shrink: 0;
         }
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .logo-icon { font-size: 1.6rem; }
-        .header-text h2 { font-size: 1.3rem; font-weight: 700; line-height: 1.2; }
-        .sub-title { font-size: 0.65rem; opacity: 0.9; margin-top: 2px; }
-        .header-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        .icon-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
 
-        .connection-bar {
+        .logo-icon { font-size: 1.8rem; }
+        .header-text { flex: 1; }
+        .app-header h2 { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+        .sub-title { font-size: 0.7rem; opacity: 0.9; margin-top: 2px; }
+
+        .chat-header {
             background: #4a90e2;
             color: white;
-            padding: 4px 12px;
+            padding: 6px 16px;
             text-align: center;
-            font-size: 0.7rem;
             flex-shrink: 0;
         }
-        .connection-bar.error {
-            background: #dc2626;
-        }
-        .connection-bar.success {
-            background: #22c55e;
+        .connection-status { font-size: 0.65rem; margin-top: 2px; }
+
+        .contacts-panel {
+            background: #f8f9fc;
+            border-bottom: 1px solid #e9ecef;
+            flex-shrink: 0;
         }
 
-        .current-chat-header {
-            background: #f8fafc;
-            padding: 10px 16px;
-            border-bottom: 1px solid #e2e8f0;
+        .my-info {
+            padding: 6px 12px;
+            background: #ffffff;
+            border-bottom: 1px solid #eef2f6;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            flex-shrink: 0;
-        }
-        .chat-contact-info {
-            display: flex;
             align-items: center;
             gap: 10px;
         }
-        .chat-status-light {
+        .my-id-box { flex: 1; min-width: 0; }
+        .my-id-label { font-size: 0.55rem; font-weight: 600; color: #64748b; }
+        .my-id-value {
+            font-family: monospace;
+            font-size: 0.6rem;
+            background: #f1f5f9;
+            padding: 4px 6px;
+            border-radius: 6px;
+            word-break: break-all;
+            margin-top: 2px;
+        }
+        .copy-id-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+
+        .contacts-header {
+            padding: 8px 12px 4px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .contacts-title { font-weight: 600; font-size: 0.75rem; }
+        .action-buttons { display: flex; gap: 6px; }
+        .add-contact-btn, .clear-messages-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.6rem;
+            cursor: pointer;
+        }
+        .clear-messages-btn { background: #f59e0b; }
+
+        .contacts-list {
+            max-height: 115px;
+            overflow-y: auto;
+            padding: 0 10px 6px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .contact-item {
+            background: white;
+            border-radius: 10px;
+            padding: 6px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .contact-item.active-contact { background: #e3f2fd; border-color: #4a90e2; }
+
+        .contact-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-light {
             width: 10px;
             height: 10px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
-        .chat-status-light.online { background: #22c55e; box-shadow: 0 0 5px #22c55e; }
-        .chat-status-light.offline { background: #94a3b8; }
-        .chat-status-light.connecting { background: #eab308; animation: pulse 1s infinite; }
-        .chat-contact-name {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #0f172a;
+        .status-light.online { background: #22c55e; box-shadow: 0 0 4px #22c55e; }
+        .status-light.offline { background: #ef4444; }
+        .status-light.connecting { background: #eab308; animation: pulse 1s infinite; }
+        .status-light.pending { background: #f97316; animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
-        .typing-badge-small {
-            font-size: 0.65rem;
-            color: #4a90e2;
-            font-style: italic;
+
+        .contact-name { font-weight: 600; font-size: 0.8rem; color: #0f172a; }
+        .online-badge {
+            font-size: 0.55rem;
+            background: #22c55e;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 5px;
         }
+        .pending-badge {
+            font-size: 0.55rem;
+            background: #f97316;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 5px;
+        }
+        .unread-badge {
+            font-size: 0.55rem;
+            background: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 5px;
+        }
+        .typing-badge {
+            font-size: 0.55rem;
+            background: #4a90e2;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 5px;
+            animation: pulse 1s infinite;
+        }
+
+        .contact-actions button {
+            background: none;
+            border: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-weight: 500;
+        }
+        .connect-toggle-btn { background: #e6f7e6; color: #2e7d32; }
+        .connect-toggle-btn.disconnecting { background: #fee2e2; color: #dc2626; }
+        .delete-contact-btn { color: #ef4444; font-size: 0.9rem; padding: 4px 6px; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            width: 85%;
+            max-width: 300px;
+            border-radius: 24px;
+            padding: 18px;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 6px 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+        }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 14px; }
+        .modal-save { background: #4a90e2; color: white; flex: 1; padding: 8px; border-radius: 25px; }
+        .modal-cancel { background: #e2e8f0; color: #334155; flex: 1; }
+
+        .emoji-picker {
+            position: fixed;
+            bottom: 95px;
+            left: 10px;
+            right: 10px;
+            background: white;
+            border-radius: 20px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            z-index: 1000;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+        .emoji-picker span { font-size: 1.6rem; cursor: pointer; text-align: center; padding: 5px; }
 
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            padding: 12px;
+            padding: 10px 12px;
             background: #f1f5f9;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .message { display: flex; flex-direction: column; max-width: 85%; }
@@ -145,24 +278,58 @@
         }
         .sent .message-content { background: #4a90e2; color: white; border-bottom-right-radius: 4px; }
         .received .message-content { background: white; color: #1e293b; border: 0.5px solid #e2e8f0; border-bottom-left-radius: 4px; }
-        .message-time {
+
+        .read-status {
             font-size: 0.55rem;
-            color: #64748b;
             margin-top: 2px;
             margin-right: 4px;
+            color: #64748b;
         }
+        .sent .read-status { color: #cbd5e1; }
+        .read-status.read { color: #22c55e; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #4a90e2;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .typing-indicator {
+            font-size: 0.65rem;
+            color: #64748b;
+            padding: 4px 12px;
+            font-style: italic;
+        }
+
+        .current-chat-info {
+            padding: 5px 12px;
+            background: #ffffff;
+            border-top: 1px solid #eef2f6;
+            border-bottom: 1px solid #eef2f6;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .current-chat-name { color: #4a90e2; font-weight: 600; }
 
         .input-container {
             flex-shrink: 0;
             background: white;
             border-top: 1px solid #edf2f7;
-            padding: 10px 12px;
+            padding: 8px 12px;
         }
-        .message-input-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
+        .message-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
         #messageInput {
             flex: 1;
             padding: 10px 14px;
@@ -180,15 +347,7 @@
             font-weight: 600;
             cursor: pointer;
         }
-        #sendButton:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-        }
-        .action-buttons-row {
-            display: flex;
-            gap: 12px;
-            padding: 4px 4px 0 4px;
-        }
+        .action-buttons-row { display: flex; gap: 12px; padding: 4px 4px 0 4px; }
         .action-icon-btn {
             background: #f1f5f9;
             border: none;
@@ -197,266 +356,64 @@
             font-size: 0.85rem;
             cursor: pointer;
         }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 85%;
-            max-width: 320px;
-            height: 100%;
-            background: white;
-            box-shadow: -2px 0 20px rgba(0,0,0,0.15);
-            z-index: 2000;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        .sidebar.open {
-            right: 0;
-        }
-        .sidebar-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sidebar-header h3 {
-            font-size: 1.2rem;
-        }
-        .close-sidebar {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .sidebar-content {
-            flex: 1;
-            padding: 16px;
-        }
-        .settings-section {
-            margin-bottom: 24px;
-        }
-        .settings-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 6px;
-        }
-        .settings-value {
-            background: #f1f5f9;
-            padding: 10px 12px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
-            word-break: break-all;
-        }
-        .settings-value span {
-            font-family: monospace;
-            font-size: 0.8rem;
-            flex: 1;
-        }
-        .mini-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 16px;
-            font-size: 0.65rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .mini-btn.primary {
-            background: #4a90e2;
-            color: white;
-        }
-        .warning-text {
-            font-size: 0.6rem;
-            color: #f97316;
-            margin-top: 6px;
-            text-align: center;
-        }
-        .info-text {
-            font-size: 0.6rem;
-            color: #22c55e;
-            margin-top: 6px;
-            text-align: center;
-        }
-        .contacts-list-sidebar {
-            margin-top: 16px;
-        }
-        .contact-item-sidebar {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #e2e8f0;
-        }
-        .contact-item-sidebar.active-contact {
-            background: #e3f2fd;
-            border-color: #4a90e2;
-        }
-        .contact-info-sidebar {
-            flex: 1;
-        }
-        .contact-name-sidebar {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .contact-phone-sidebar {
-            font-size: 0.6rem;
-            color: #64748b;
-            font-family: monospace;
-        }
-        .contact-badge {
-            font-size: 0.6rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-left: 6px;
-        }
-        .contact-badge.online { background: #22c55e; color: white; }
-        .contact-badge.pending { background: #f97316; color: white; }
-        .contact-badge.unread { background: #ef4444; color: white; }
-        .contact-actions-sidebar {
-            display: flex;
-            gap: 6px;
-        }
-        .contact-action-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 4px;
-        }
-        .add-contact-btn-sidebar {
-            width: 100%;
-            background: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 24px;
-            font-weight: 600;
-            margin-top: 16px;
-            cursor: pointer;
-        }
-
-        .modal-overlay {
+        .drag-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(74,144,226,0.9);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 3000;
-        }
-        .modal-content {
-            background: white;
-            width: 85%;
-            max-width: 300px;
-            border-radius: 24px;
-            padding: 20px;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 10px 12px;
-            margin: 8px 0;
-            border: 1px solid #cbd5e1;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        .modal-save { background: #4a90e2; color: white; flex: 1; padding: 8px; border-radius: 25px; border: none; cursor: pointer; }
-        .modal-cancel { background: #e2e8f0; color: #334155; flex: 1; border: none; border-radius: 25px; cursor: pointer; }
-
-        .emoji-picker {
-            position: fixed;
-            bottom: 95px;
-            left: 10px;
-            right: 10px;
-            background: white;
-            border-radius: 20px;
-            padding: 12px;
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            z-index: 2500;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        }
-        .emoji-picker span { font-size: 1.5rem; cursor: pointer; text-align: center; padding: 5px; }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .no-contact-selected {
-            text-align: center;
-            color: #94a3b8;
-            padding: 40px;
-            font-size: 0.9rem;
-        }
-        .retry-btn {
-            background: #4a90e2;
+            z-index: 2000;
             color: white;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.65rem;
-            cursor: pointer;
-            margin-left: 8px;
+            font-size: 1.5rem;
+            pointer-events: none;
+        }
+        @media (max-width: 480px) {
+            .emoji-picker { grid-template-columns: repeat(7, 1fr); bottom: 105px; }
+            .action-icon-btn { padding: 6px 12px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
     <div class="chat-container" id="chatContainer">
         <div class="app-header">
-            <div class="logo-section">
-                <div class="logo-icon">💬</div>
-                <div class="header-text">
-                    <h2>SEYFİÇET</h2>
-                    <div class="sub-title">🔒 Telefon No ile P2P</div>
+            <div class="logo-icon">💬</div>
+            <div class="header-text">
+                <h2>SEYFİÇET</h2>
+                <div class="sub-title">🔒 P2P Mesajlaşma</div>
+            </div>
+        </div>
+        <div class="chat-header">
+            <div class="connection-status" id="status">Bağlantı bekleniyor...</div>
+        </div>
+        <div class="contacts-panel">
+            <div class="my-info">
+                <div class="my-id-box">
+                    <div class="my-id-label">🔑 KALICI ID'NİZ</div>
+                    <div class="my-id-value" id="myPeerId">Bağlanıyor...</div>
+                </div>
+                <button class="copy-id-btn" id="copyIdBtn">📋 Kopyala</button>
+            </div>
+            <div class="contacts-header">
+                <span class="contacts-title">📒 KİŞİLERİM</span>
+                <div class="action-buttons">
+                    <button class="clear-messages-btn" id="clearMessagesBtn">🗑 Mesajları Sil</button>
+                    <button class="add-contact-btn" id="addContactBtn">+ Yeni Kişi</button>
                 </div>
             </div>
-            <div class="header-buttons">
-                <button class="icon-btn" id="settingsBtn">⚙️</button>
-                <button class="icon-btn" id="contactsBtn">👥</button>
-            </div>
+            <div class="contacts-list" id="contactsList"></div>
         </div>
-        <div class="connection-bar" id="status">Başlatılıyor...</div>
-
-        <div class="current-chat-header" id="currentChatHeader" style="display: none;">
-            <div class="chat-contact-info">
-                <div class="chat-status-light" id="chatStatusLight"></div>
-                <span class="chat-contact-name" id="currentChatName">Seçili kişi yok</span>
-                <span id="chatTypingIndicator" style="display:none;" class="typing-badge-small">✍️ Yazıyor...</span>
-            </div>
+        <div class="current-chat-info">
+            💬 Sohbet: <span id="activeContactName" class="current-chat-name">Seçili kişi yok</span>
+            <span id="typingIndicator" style="display:none;" class="typing-badge">✍️ Yazıyor...</span>
         </div>
-
-        <div class="messages-area" id="messagesArea">
-            <div class="no-contact-selected">👈 Sağ üstten bir kişi seçin</div>
-        </div>
-
-        <div class="input-container" id="inputContainer" style="display: none;">
+        <div class="messages-area" id="messagesArea"></div>
+        <div class="input-container">
             <div class="message-input-row">
-                <input type="text" id="messageInput" placeholder="Mesaj yazın..." disabled>
+                <input type="text" id="messageInput" placeholder="Mesaj yazın veya dosya sürükleyin..." disabled>
                 <button id="sendButton" disabled>Gönder</button>
             </div>
             <div class="action-buttons-row">
@@ -467,19 +424,11 @@
         </div>
     </div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3 id="sidebarTitle">Ayarlar</h3>
-            <button class="close-sidebar" id="closeSidebar">✕</button>
-        </div>
-        <div class="sidebar-content" id="sidebarContent"></div>
-    </div>
-
     <div id="contactModal" style="display: none;" class="modal-overlay">
         <div class="modal-content">
             <h3>➕ Yeni Kişi Ekle</h3>
             <input type="text" id="contactNameInput" placeholder="Kişi adı">
-            <input type="tel" id="contactPhoneInput" placeholder="Tel no:+905551234567">
+            <input type="text" id="contactPeerIdInput" placeholder="Karşı tarafın Peer ID'si">
             <div class="modal-buttons">
                 <button class="modal-cancel" id="modalCancelBtn">Vazgeç</button>
                 <button class="modal-save" id="modalSaveBtn">Kaydet</button>
@@ -487,68 +436,25 @@
         </div>
     </div>
 
-    <div id="editPhoneModal" style="display: none;" class="modal-overlay">
-        <div class="modal-content">
-            <h3>📞 Telefon Numaranız</h3>
-            <input type="tel" id="editPhoneInput" placeholder="+905551234567 şeklinde">
-            <div class="warning-text">⚠️ Bu numara sizin kimliğinizdir. Karşı taraf size bu numara ile bağlanacak.</div>
-                        <div class="modal-buttons">
-                <button class="modal-cancel" id="editPhoneCancel">Vazgeç</button>
-                <button class="modal-save" id="editPhoneSave">Kaydet</button>
-            </div>
-        </div>
-    </div>
-
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <script>
-        // Daha güvenilir STUN sunucuları
-        const PEER_CONFIG = {
-            debug: 0,
-            config: {
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' },
-                    { urls: 'stun:stun2.l.google.com:19302' },
-                    { urls: 'stun:stun.stunprotocol.org:3478' },
-                    { urls: 'stun:stun.voipbuster.com:3478' }
-                ]
-            }
-        };
-
-        let myPhoneNumber = "";
-        let peer = null;
-        let currentConnection = null;
-        let isConnected = false;
-        let activeContactId = null;
-        let activeContactName = "";
-        let contacts = [];
-        let messagesHistory = {};
-        let pendingMessages = {};
-        let contactStatus = {};
-        let unreadCounts = {};
-        let currentSidebarMode = 'settings';
+        let myPermanentId, peer, currentConnection, isConnected = false;
+        let activeContactId = null, activeContactName = "";
+        let contacts = [], messagesHistory = {}, pendingMessages = {}, contactStatus = {};
+        let unreadCounts = {}, typingTimeouts = {};
         let emojiPicker = null;
-        let reconnectTimeout = null;
 
         const elements = {
-            statusDiv: document.getElementById('status'),
-            messagesArea: document.getElementById('messagesArea'),
-            messageInput: document.getElementById('messageInput'),
-            sendButton: document.getElementById('sendButton'),
-            inputContainer: document.getElementById('inputContainer'),
-            currentChatHeader: document.getElementById('currentChatHeader'),
-            currentChatName: document.getElementById('currentChatName'),
-            chatStatusLight: document.getElementById('chatStatusLight'),
-            chatTypingIndicator: document.getElementById('chatTypingIndicator'),
-            settingsBtn: document.getElementById('settingsBtn'),
-            contactsBtn: document.getElementById('contactsBtn'),
-            sidebar: document.getElementById('sidebar'),
-            sidebarTitle: document.getElementById('sidebarTitle'),
-            sidebarContent: document.getElementById('sidebarContent'),
-            closeSidebar: document.getElementById('closeSidebar'),
-            emojiBtn: document.getElementById('emojiBtn'),
-            fileBtn: document.getElementById('fileBtn'),
-            imageBtn: document.getElementById('imageBtn')
+            myPeerIdDiv: document.getElementById('myPeerId'), copyIdBtn: document.getElementById('copyIdBtn'),
+            contactsListDiv: document.getElementById('contactsList'), addContactBtn: document.getElementById('addContactBtn'),
+            clearMessagesBtn: document.getElementById('clearMessagesBtn'), modal: document.getElementById('contactModal'),
+            contactNameInput: document.getElementById('contactNameInput'), contactPeerIdInput: document.getElementById('contactPeerIdInput'),
+            modalCancelBtn: document.getElementById('modalCancelBtn'), modalSaveBtn: document.getElementById('modalSaveBtn'),
+            messagesArea: document.getElementById('messagesArea'), messageInput: document.getElementById('messageInput'),
+            sendButton: document.getElementById('sendButton'), statusDiv: document.getElementById('status'),
+            activeContactNameSpan: document.getElementById('activeContactName'), typingIndicator: document.getElementById('typingIndicator'),
+            emojiBtn: document.getElementById('emojiBtn'), fileBtn: document.getElementById('fileBtn'), imageBtn: document.getElementById('imageBtn'),
+            chatContainer: document.getElementById('chatContainer')
         };
 
         function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
@@ -558,244 +464,27 @@
             else if (Notification.permission !== 'denied') Notification.requestPermission();
         }
 
-        function updateStatus(message, isError = false, isSuccess = false) {
-            elements.statusDiv.innerHTML = message;
-            elements.statusDiv.classList.remove('error', 'success');
-            if (isError) elements.statusDiv.classList.add('error');
-            if (isSuccess) elements.statusDiv.classList.add('success');
+        function getOrCreatePermanentId() {
+            let saved = localStorage.getItem('p2p_my_permanent_id');
+            if (saved) return saved;
+            let newId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
+            localStorage.setItem('p2p_my_permanent_id', newId);
+            return newId;
         }
 
-        function loadPhoneNumber() {
-            let saved = localStorage.getItem('seyficet_phone');
-            if (saved && saved.trim() !== "") {
-                myPhoneNumber = saved.trim();
-                return true;
-            }
-            myPhoneNumber = "";
-            return false;
-        }
-
-        function savePhoneNumber(phone) {
-            if (!phone || phone.trim() === "") {
-                myPhoneNumber = "";
-                localStorage.removeItem('seyficet_phone');
-                if (peer) peer.destroy();
-                peer = null;
-                updateStatus('⚠️ Telefon numarası ayarlanmadı', true);
-                return false;
-            }
-            let cleanPhone = phone.trim().replace(/\s/g, '');
-            myPhoneNumber = cleanPhone;
-            localStorage.setItem('seyficet_phone', myPhoneNumber);
-            initPeer();
-            return true;
-        }
-
-        function initPeer() {
-            if (!myPhoneNumber || myPhoneNumber === "") {
-                updateStatus('⚠️ Lütfen ayarlardan telefon numaranızı girin', true);
-                return;
-            }
-            
-            if (peer) {
-                peer.destroy();
-                peer = null;
-            }
-            
-            updateStatus(`🔄 ${myPhoneNumber} bağlanıyor...`);
-            
-            try {
-                peer = new Peer(myPhoneNumber, PEER_CONFIG);
-                
-                peer.on('open', (id) => {
-                    updateStatus(`✅ ${id} aktif - Bağlantıya hazır`, false, true);
-                });
-                
-                peer.on('error', (err) => {
-                    console.error('Peer error:', err);
-                    if (err.type === 'unavailable-id') {
-                        updateStatus(`❌ "${myPhoneNumber}" numarası kullanımda! Lütfen farklı bir numara girin.`, true);
-                    } else if (err.type === 'network') {
-                        updateStatus(`⚠️ Ağ bağlantı sorunu. Yeniden bağlanılıyor...`, true);
-                        setTimeout(() => initPeer(), 3000);
-                    } else {
-                        updateStatus(`⚠️ Bağlantı hatası: ${err.type || 'bilinmeyen'}`, true);
-                    }
-                });
-                
-                peer.on('connection', handleIncomingConnection);
-                
-                peer.on('disconnected', () => {
-                    updateStatus(`⚠️ Bağlantı kesildi, yeniden bağlanılıyor...`, true);
-                    setTimeout(() => {
-                        if (peer) peer.reconnect();
-                    }, 2000);
-                });
-                
-                peer.on('close', () => {
-                    updateStatus(`❌ Bağlantı kapandı`, true);
-                });
-                
-            } catch (e) {
-                console.error('Peer init error:', e);
-                updateStatus(`❌ Başlatma hatası: ${e.message}`, true);
-            }
-        }
-
-        function handleIncomingConnection(incoming) {
-            let contact = contacts.find(c => c.phoneNumber === incoming.peer);
-            if (!contact) {
-                incoming.close();
-                return;
-            }
-            
-            if (currentConnection && isConnected) {
-                incoming.close();
-                return;
-            }
-            
-            if (currentConnection) {
-                currentConnection.close();
-            }
-            
-            currentConnection = incoming;
-            activeContactId = contact.id;
-            activeContactName = contact.name;
-            elements.currentChatName.innerText = contact.name;
-            
-            setupConnectionEvents(currentConnection, contact.id, contact.name);
-            updateContactStatus(contact.id, 'connected');
-            setConnectedState(true);
-            updateStatus(`✅ ${contact.name} (${contact.phoneNumber}) ile bağlantı kuruldu`, false, true);
-            addSystemMessage(`${contact.name} sizinle bağlantı kurdu.`);
-            flushPendingMessages(contact.id);
-            showChatInterface(true);
-            renderMessagesForActiveContact();
-            renderSidebarContent();
-        }
-
-        function setupConnectionEvents(connection, contactId, contactName) {
-            connection.on('open', () => {
-                if (activeContactId === contactId) {
-                    isConnected = true;
-                    setConnectedState(true);
-                    updateContactStatus(contactId, 'connected');
-                    updateStatus(`✅ ${contactName} ile görüşme başladı`, false, true);
-                    addSystemMessage(`${contactName} ile bağlantı hazır.`);
-                    flushPendingMessages(contactId);
-                }
-            });
-            
-            let typingTimeout = null;
-            connection.on('data', (data) => {
-                if (activeContactId === contactId && currentConnection === connection) {
-                    if (data.type === 'text') {
-                        addMessageToHistory(contactId, data.text, contactName, false, 'text');
-                    } else if (data.type === 'file') {
-                        addMessageToHistory(contactId, data.name, contactName, false, 'file', data.data, data.mime);
-                    } else if (data.type === 'image') {
-                        addMessageToHistory(contactId, data.name, contactName, false, 'image', data.data, data.mime);
-                    } else if (data.type === 'typing') {
-                        elements.chatTypingIndicator.style.display = 'inline-block';
-                        if (typingTimeout) clearTimeout(typingTimeout);
-                        typingTimeout = setTimeout(() => elements.chatTypingIndicator.style.display = 'none', 2000);
-                    }
-                }
-            });
-            
-            connection.on('close', () => {
-                if (activeContactId === contactId && currentConnection === connection) {
-                    addSystemMessage(`${contactName} bağlantıyı kapattı.`);
-                    updateContactStatus(contactId, 'offline');
-                    setConnectedState(false);
-                    currentConnection = null;
-                    isConnected = false;
-                    updateStatus(`❌ ${contactName} ile bağlantı kesildi`);
-                }
-            });
-            
-            connection.on('error', (err) => {
-                console.error('Connection error:', err);
-                if (activeContactId === contactId && currentConnection === connection) {
-                    updateContactStatus(contactId, 'offline');
-                    setConnectedState(false);
-                    currentConnection = null;
-                    isConnected = false;
-                    updateStatus(`⚠️ ${contactName} ile bağlantı hatası`, true);
-                }
-            });
-        }
-
-        function connectToContact(id, phoneNumber, name) {
-            if (!myPhoneNumber || myPhoneNumber === "") {
-                alert('Lütfen önce ayarlardan kendi telefon numaranızı girin.');
-                return;
-            }
-            
-            if (activeContactId === id && isConnected) {
-                disconnectCurrent();
-                return;
-            }
-            
-            if (currentConnection) disconnectCurrent();
-            
-            activeContactId = id;
-            activeContactName = name;
-            elements.currentChatName.innerText = name;
-            updateChatHeaderStatus();
-            renderMessagesForActiveContact();
-            updateContactStatus(id, 'connecting');
-            updateStatus(`🔄 ${name} (${phoneNumber}) bağlanıyor...`);
-            
-            try {
-                let newConn = peer.connect(phoneNumber);
-                if (!newConn) {
-                    updateContactStatus(id, 'offline');
-                    updateStatus(`❌ ${name} bağlanamadı`, true);
-                    return;
-                }
-                
-                currentConnection = newConn;
-                setupConnectionEvents(currentConnection, id, name);
-                
-                // 15 saniye timeout
-                setTimeout(() => {
-                    if (currentConnection === newConn && !isConnected) {
-                        updateContactStatus(id, 'offline');
-                        addSystemMessage(`${name} bağlantı zaman aşımı. Karşı taraf çevrimiçi mi?`);
-                        setConnectedState(false);
-                        currentConnection = null;
-                        updateStatus(`⏰ ${name} bağlantı zaman aşımı`, true);
-                    }
-                }, 15000);
-                
-                showChatInterface(true);
-            } catch (e) {
-                console.error('Connect error:', e);
-                updateContactStatus(id, 'offline');
-                updateStatus(`❌ Bağlantı hatası: ${e.message}`, true);
-            }
-        }
-
-        function disconnectCurrent() {
-            if (currentConnection) {
-                let contact = contacts.find(c => c.id === activeContactId);
-                if (contact) {
-                    updateContactStatus(activeContactId, 'offline');
-                    addSystemMessage(`${contact.name} ile bağlantı kesildi.`);
-                }
-                currentConnection.close();
-                currentConnection = null;
-                isConnected = false;
-                setConnectedState(false);
-                updateStatus('❌ Bağlantı kesildi');
-            }
+        function sendWithProgress(file, type, callback) {
+            const reader = new FileReader();
+            reader.onprogress = (e) => { if (e.lengthComputable) callback(e.loaded / e.total * 100); };
+            reader.onload = (e) => {
+                callback(100);
+                sendMessageWithQueue(activeContactId, type, '', e.target.result, file.type, file.name);
+            };
+            reader.readAsDataURL(file);
         }
 
         function sendMessageWithQueue(contactId, type, content, fileData = null, mime = '', fileName = '') {
             if (!contactId) return false;
             const isConnectedNow = (activeContactId === contactId && isConnected && currentConnection);
-            
             if (isConnectedNow) {
                 try {
                     let msg = { type };
@@ -832,25 +521,108 @@
                     else { payload.name = msg.name; payload.data = msg.fileData; payload.mime = msg.mime; }
                     currentConnection.send(payload);
                     addMessageToHistory(contactId, msg.content || msg.name, 'Ben', true, msg.type, msg.fileData, msg.mime);
-                } catch (err) {
-                    if (!pendingMessages[contactId]) pendingMessages[contactId] = [];
-                    pendingMessages[contactId].unshift(msg);
-                }
+                } catch (err) { if (!pendingMessages[contactId]) pendingMessages[contactId] = []; pendingMessages[contactId].unshift(msg); }
             }
             if (pending.length) addSystemMessage(`${pending.length} bekleyen mesaj gönderildi.`);
+            updateContactStatus(contactId, 'connected');
         }
 
         function addMessageToHistory(contactId, content, sender, isSent, msgType, fileData = null, mime = '', isPending = false) {
             if (!messagesHistory[contactId]) messagesHistory[contactId] = [];
-            let msg = { content, sender, isSent, msgType, fileData, mime, isPending, timestamp: Date.now() };
+            let msg = { content, sender, isSent, msgType, fileData, mime, isPending, read: isSent, timestamp: Date.now() };
             messagesHistory[contactId].push(msg);
             saveMessagesHistory();
             if (activeContactId === contactId) renderMessagesForActiveContact();
             if (!isSent && activeContactId !== contactId) {
                 unreadCounts[contactId] = (unreadCounts[contactId] || 0) + 1;
-                renderSidebarContent();
+                renderContactsList();
                 showNotification(`${sender}`, content.length > 30 ? content.substring(0,30)+'...' : content);
             }
+        }
+
+        function markAsRead(contactId, messageId) { /* okundu bilgisi karşıya gönder */ }
+
+        function sendReadReceipt(contactId, messageIds) {
+            if (currentConnection && isConnected && activeContactId === contactId)
+                currentConnection.send({ type: 'read_receipt', messageIds });
+        }
+
+        function updateContactStatus(id, status) { contactStatus[id] = status; renderContactsList(); }
+
+        function setupConnectionEvents(connection, contactId, contactName) {
+            connection.on('open', () => {
+                if (activeContactId === contactId) {
+                    isConnected = true; setConnectedState(true);
+                    updateContactStatus(contactId, 'connected');
+                    elements.statusDiv.innerHTML = `✅ ${contactName} ile bağlantı aktif`;
+                    addSystemMessage(`${contactName} ile görüşmeye hazırsınız.`);
+                    flushPendingMessages(contactId);
+                }
+            });
+            let typingTimeout = null;
+            connection.on('data', (data) => {
+                if (activeContactId === contactId && currentConnection === connection) {
+                    if (data.type === 'text') {
+                        addMessageToHistory(contactId, data.text, contactName, false, 'text');
+                        sendReadReceipt(contactId, [data.id]);
+                    } else if (data.type === 'file') {
+                        addMessageToHistory(contactId, data.name, contactName, false, 'file', data.data, data.mime);
+                    } else if (data.type === 'image') {
+                        addMessageToHistory(contactId, data.name, contactName, false, 'image', data.data, data.mime);
+                    } else if (data.type === 'typing') {
+                        elements.typingIndicator.style.display = 'inline-block';
+                        if (typingTimeout) clearTimeout(typingTimeout);
+                        typingTimeout = setTimeout(() => elements.typingIndicator.style.display = 'none', 2000);
+                    } else if (data.type === 'read_receipt') { /* okundu işareti güncelle */ }
+                }
+            });
+            connection.on('close', () => {
+                if (activeContactId === contactId && currentConnection === connection) {
+                    addSystemMessage(`${contactName} bağlantıyı kapattı.`);
+                    updateContactStatus(contactId, 'offline');
+                    setConnectedState(false); currentConnection = null; isConnected = false;
+                }
+            });
+            connection.on('error', () => { if (activeContactId === contactId && currentConnection === connection) { updateContactStatus(contactId, 'offline'); setConnectedState(false); currentConnection = null; isConnected = false; } });
+        }
+
+        function sendTyping() { if (currentConnection && isConnected) currentConnection.send({ type: 'typing' }); }
+
+        let typingTimer;
+        elements.messageInput.addEventListener('input', () => {
+            if (isConnected && activeContactId) { sendTyping(); clearTimeout(typingTimer); typingTimer = setTimeout(() => {}, 1000); }
+        });
+
+        function connectToContact(id, peerId, name) {
+            if (activeContactId === id && isConnected) { disconnectCurrent(); return; }
+            if (currentConnection) disconnectCurrent();
+            activeContactId = id; activeContactName = name;
+            elements.activeContactNameSpan.innerText = name;
+            renderMessagesForActiveContact();
+            updateContactStatus(id, 'connecting');
+            elements.statusDiv.innerHTML = `🔄 ${name} bağlanıyor...`;
+            let newConn = peer.connect(peerId);
+            if (!newConn) { updateContactStatus(id, 'offline'); return; }
+            currentConnection = newConn;
+            setupConnectionEvents(currentConnection, id, name);
+            setTimeout(() => { if (currentConnection === newConn && !isConnected) { updateContactStatus(id, 'offline'); addSystemMessage(`${name} bağlantı zaman aşımı`); setConnectedState(false); currentConnection = null; } }, 10000);
+        }
+
+        function disconnectCurrent() {
+            if (currentConnection) {
+                let contact = contacts.find(c => c.id === activeContactId);
+                if (contact) { updateContactStatus(activeContactId, 'offline'); addSystemMessage(`${contact.name} ile bağlantı kesildi.`); }
+                currentConnection.close(); currentConnection = null; isConnected = false; setConnectedState(false);
+                elements.statusDiv.innerHTML = '❌ Bağlantı kesildi';
+            }
+        }
+
+        function setConnectedState(connected) {
+            isConnected = connected;
+            elements.messageInput.disabled = !connected;
+            elements.sendButton.disabled = !connected;
+            if (!connected && activeContactId) elements.messageInput.placeholder = "Mesaj yazın (bağlantı yok, bekleme kuyruğuna alınacak)...";
+            else if (connected) elements.messageInput.placeholder = "Mesaj yazın...";
         }
 
         function sendTextMessage() {
@@ -861,285 +633,146 @@
             elements.messageInput.value = '';
         }
 
-        function sendTyping() { if (currentConnection && isConnected) currentConnection.send({ type: 'typing' }); }
-
-        let typingTimer;
-        if (elements.messageInput) {
-            elements.messageInput.addEventListener('input', () => {
-                if (isConnected && activeContactId) { sendTyping(); clearTimeout(typingTimer); typingTimer = setTimeout(() => {}, 1000); }
-            });
-        }
-
         function renderMessagesForActiveContact() {
             if (!elements.messagesArea) return;
             elements.messagesArea.innerHTML = '';
-            if (!activeContactId) {
-                elements.messagesArea.innerHTML = '<div class="no-contact-selected">👈 Sağ üstten bir kişi seçin</div>';
-                return;
-            }
+            if (!activeContactId) { elements.messagesArea.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">👈 Bir kişi seçip bağlanın</div>'; return; }
             let history = messagesHistory[activeContactId] || [];
-            if (history.length === 0) {
-                elements.messagesArea.innerHTML = '<div class="no-contact-selected">💬 Henüz mesaj yok</div>';
-                return;
-            }
-            history.forEach((msg) => {
+            history.forEach((msg, idx) => {
                 let div = document.createElement('div');
                 div.className = `message ${msg.isSent ? 'sent' : 'received'}`;
                 let timeStr = new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
                 let contentHtml = '';
-                if (msg.msgType === 'text') contentHtml = `<div class="message-content">${!msg.isSent ? `<strong>${escapeHtml(msg.sender)}:</strong> ` : ''}${escapeHtml(msg.content)}</div>`;
-                else if (msg.msgType === 'image') contentHtml = `<div class="message-content"><img src="${msg.fileData}" style="max-width:200px; max-height:200px; border-radius:12px; cursor:pointer;" onclick="window.open('${msg.fileData}','_blank')"></div>`;
-                else if (msg.msgType === 'file') contentHtml = `<div class="message-content" style="cursor:pointer;" onclick="downloadFile('${msg.fileData}', '${msg.content}')">📎 ${escapeHtml(msg.content)}</div>`;
-                div.innerHTML = contentHtml + `<div class="message-time">${timeStr}</div>`;
+                if (msg.msgType === 'text') contentHtml = `<div class="message-content ${msg.isPending ? 'pending' : ''}">${!msg.isSent ? `<strong>${escapeHtml(msg.sender)}:</strong> ` : ''}${escapeHtml(msg.content)}</div>`;
+                else if (msg.msgType === 'image') contentHtml = `<div class="message-content file-message"><img src="${msg.fileData}" class="message-image" onclick="window.open('${msg.fileData}','_blank')" style="max-width:100%; border-radius:12px;"></div>`;
+                else if (msg.msgType === 'file') contentHtml = `<div class="message-content file-message" onclick="downloadFile('${msg.fileData}', '${msg.content}')">📎 ${escapeHtml(msg.content)}</div>`;
+                let readHtml = msg.isSent ? `<div class="read-status ${msg.read ? 'read' : ''}">${msg.read ? '✓✓ Okundu' : '✓ Gönderildi'}</div>` : '';
+                div.innerHTML = contentHtml + `<div class="message-time">${timeStr}</div>` + readHtml;
                 elements.messagesArea.appendChild(div);
             });
             elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight;
-            if (unreadCounts[activeContactId]) { delete unreadCounts[activeContactId]; renderSidebarContent(); }
+            if (unreadCounts[activeContactId]) { delete unreadCounts[activeContactId]; renderContactsList(); }
         }
 
-        function updateChatHeaderStatus() {
-            if (!activeContactId) {
-                elements.currentChatHeader.style.display = 'none';
-                return;
-            }
-            elements.currentChatHeader.style.display = 'flex';
-            let status = contactStatus[activeContactId] || 'offline';
-            let statusClass = status === 'connected' ? 'online' : (status === 'connecting' ? 'connecting' : 'offline');
-            elements.chatStatusLight.className = `chat-status-light ${statusClass}`;
-        }
-
-        function updateContactStatus(id, status) { contactStatus[id] = status; renderSidebarContent(); updateChatHeaderStatus(); }
-
-        function setConnectedState(connected) {
-            isConnected = connected;
-            if (elements.messageInput) elements.messageInput.disabled = !connected;
-            if (elements.sendButton) elements.sendButton.disabled = !connected;
-            updateChatHeaderStatus();
-        }
-
-        function showChatInterface(show) {
-            if (show && activeContactId) {
-                elements.inputContainer.style.display = 'block';
-                elements.currentChatHeader.style.display = 'flex';
-            } else if (!activeContactId) {
-                elements.inputContainer.style.display = 'none';
-                elements.currentChatHeader.style.display = 'none';
-            }
-        }
-
-        function addSystemMessage(text) {
-            if (!activeContactId) return;
-            let div = document.createElement('div');
-            div.className = 'message received';
-            div.style.alignSelf = 'center';
-            div.innerHTML = `<div class="message-content" style="background:#eef2ff; font-size:0.7rem;">📡 ${escapeHtml(text)}</div>`;
-            elements.messagesArea.appendChild(div);
-            elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight;
-        }
-
-        function renderSidebarContent() {
-            if (!elements.sidebarContent) return;
-            if (currentSidebarMode === 'settings') {
-                elements.sidebarTitle.innerText = '⚙️ Ayarlar';
-                elements.sidebarContent.innerHTML = `
-                    <div class="settings-section">
-                        <div class="settings-label">📞 TELEFON NUMARANIZ</div>
-                        <div class="settings-value">
-                            <span>${myPhoneNumber && myPhoneNumber !== "" ? escapeHtml(myPhoneNumber) : "Henüz ayarlanmadı"}</span>
-                            <button class="mini-btn primary" id="editPhoneSettingsBtn">${myPhoneNumber ? "✏️ Düzenle" : "➕ Ekle"}</button>
-                        </div>
-                        <div class="warning-text">⚠️ Bu numara sizin kimliğinizdir. Karşı taraf size bu numara ile bağlanır. Dilerseniz telefon numarası dışında bir ID belirleyebilirsiniz.</div>
-                                            </div>
-                `;
-                document.getElementById('editPhoneSettingsBtn')?.addEventListener('click', () => showPhoneEditModal());
-            } else {
-                elements.sidebarTitle.innerText = '📒 Kişilerim';
-                let contactsHtml = '<div class="contacts-list-sidebar">';
-                if (contacts.length === 0) {
-                    contactsHtml += '<div style="text-align:center; color:#94a3b8; padding:20px;">📭 Henüz kişi yok</div>';
-                } else {
-                    contacts.forEach(contact => {
-                        let status = contactStatus[contact.id] || 'offline';
-                        let isActive = activeContactId === contact.id;
-                        let pendingCount = pendingMessages[contact.id]?.length || 0;
-                        let unreadCount = unreadCounts[contact.id] || 0;
-                        let isOnline = status === 'connected';
-                        contactsHtml += `
-                            <div class="contact-item-sidebar ${isActive ? 'active-contact' : ''}">
-                                <div class="contact-info-sidebar">
-                                    <div class="contact-name-sidebar">
-                                        ${escapeHtml(contact.name)}
-                                        ${isOnline ? '<span class="contact-badge online">● Aktif</span>' : ''}
-                                        ${pendingCount ? `<span class="contact-badge pending">📬 ${pendingCount}</span>` : ''}
-                                        ${unreadCount ? `<span class="contact-badge unread">🔔 ${unreadCount}</span>` : ''}
-                                    </div>
-                                    <div class="contact-phone-sidebar">📞 ${escapeHtml(contact.phoneNumber)}</div>
-                                </div>
-                                <div class="contact-actions-sidebar">
-                                    <button class="contact-action-btn" data-action="connect" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}">🔌</button>
-                                    <button class="contact-action-btn" data-action="delete" data-id="${contact.id}">🗑</button>
-                                </div>
+        function renderContactsList() {
+            if (!elements.contactsListDiv) return;
+            if (!contacts.length) { elements.contactsListDiv.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:8px;">📭 Henüz kişi yok</div>'; return; }
+            elements.contactsListDiv.innerHTML = '';
+            contacts.forEach(contact => {
+                let status = contactStatus[contact.id] || 'offline';
+                let statusClass = status === 'connected' ? 'online' : (status === 'connecting' ? 'connecting' : (status === 'pending' ? 'pending' : 'offline'));
+                let isActive = activeContactId === contact.id;
+                let buttonText = status === 'connected' ? 'Bağlandı' : (status === 'connecting' ? 'Bağlanıyor...' : 'Bağlan');
+                let pendingCount = pendingMessages[contact.id]?.length || 0;
+                let unreadCount = unreadCounts[contact.id] || 0;
+                let isOnline = contactStatus[contact.id] === 'connected';
+                let div = document.createElement('div');
+                div.className = `contact-item ${isActive ? 'active-contact' : ''}`;
+                div.innerHTML = `
+                    <div class="contact-info">
+                        <div class="status-light ${statusClass}"></div>
+                        <div>
+                            <div class="contact-name">
+                                ${escapeHtml(contact.name)}
+                                ${isOnline ? '<span class="online-badge">🟢 Aktif</span>' : ''}
+                                ${pendingCount ? `<span class="pending-badge">📬 ${pendingCount}</span>` : ''}
+                                ${unreadCount ? `<span class="unread-badge">🔔 ${unreadCount}</span>` : ''}
                             </div>
-                        `;
-                    });
-                }
-                contactsHtml += `<button class="add-contact-btn-sidebar" id="addContactSidebarBtn">+ Yeni Kişi Ekle</button></div>`;
-                elements.sidebarContent.innerHTML = contactsHtml;
-                
-                document.querySelectorAll('[data-action="connect"]').forEach(btn => {
-                    btn.onclick = () => {
-                        let id = btn.dataset.id, phone = btn.dataset.phone, name = btn.dataset.name;
-                        if (contactStatus[id] === 'connected') { disconnectCurrent(); updateContactStatus(id, 'offline'); }
-                        else connectToContact(id, phone, name);
-                        closeSidebar();
-                    };
-                });
-                document.querySelectorAll('[data-action="delete"]').forEach(btn => {
-                    btn.onclick = () => deleteContactById(btn.dataset.id);
-                });
-                document.getElementById('addContactSidebarBtn')?.addEventListener('click', () => {
-                    closeSidebar();
-                    showAddContactModal();
-                });
-            }
-        }
-
-        function showPhoneEditModal() {
-            const modal = document.getElementById('editPhoneModal');
-            const input = document.getElementById('editPhoneInput');
-            input.value = myPhoneNumber || '';
-            modal.style.display = 'flex';
-            const saveBtn = document.getElementById('editPhoneSave');
-            const cancelBtn = document.getElementById('editPhoneCancel');
-            const saveHandler = () => {
-                let newPhone = input.value.trim().replace(/\s/g, '');
-                if (!newPhone) {
-                    alert('Lütfen geçerli bir telefon numarası girin');
-                    return;
-                }
-                savePhoneNumber(newPhone);
-                modal.style.display = 'none';
-                renderSidebarContent();
-                saveBtn.removeEventListener('click', saveHandler);
-                cancelBtn.removeEventListener('click', cancelHandler);
-            };
-            const cancelHandler = () => {
-                modal.style.display = 'none';
-                saveBtn.removeEventListener('click', saveHandler);
-                cancelBtn.removeEventListener('click', cancelHandler);
-            };
-            saveBtn.addEventListener('click', saveHandler);
-            cancelBtn.addEventListener('click', cancelHandler);
-        }
-
-        function showAddContactModal() {
-            const modal = document.getElementById('contactModal');
-            const nameInput = document.getElementById('contactNameInput');
-            const phoneInput = document.getElementById('contactPhoneInput');
-            nameInput.value = '';
-            phoneInput.value = '';
-            modal.style.display = 'flex';
-            const saveBtn = document.getElementById('modalSaveBtn');
-            const cancelBtn = document.getElementById('modalCancelBtn');
-            const saveHandler = () => {
-                let name = nameInput.value.trim();
-                let phone = phoneInput.value.trim().replace(/\s/g, '');
-                if (!name || !phone) { alert('Lütfen tüm bilgileri doldurun'); return; }
-                if (contacts.some(c => c.phoneNumber === phone)) { alert('Bu telefon numarası zaten mevcut'); return; }
-                if (phone === myPhoneNumber) { alert('Kendi numaranızı ekleyemezsiniz'); return; }
-                let newId = Date.now() + '_' + Math.random().toString(36);
-                contacts.push({ id: newId, name, phoneNumber: phone });
-                contactStatus[newId] = 'offline';
-                pendingMessages[newId] = [];
-                saveContacts();
-                renderSidebarContent();
-                modal.style.display = 'none';
-                saveBtn.removeEventListener('click', saveHandler);
-                cancelBtn.removeEventListener('click', cancelHandler);
-            };
-            const cancelHandler = () => {
-                modal.style.display = 'none';
-                saveBtn.removeEventListener('click', saveHandler);
-                cancelBtn.removeEventListener('click', cancelHandler);
-            };
-            saveBtn.addEventListener('click', saveHandler);
-            cancelBtn.addEventListener('click', cancelHandler);
+                            <div class="contact-peerid">${escapeHtml(contact.peerId.substring(0, 14))}...</div>
+                        </div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="connect-toggle-btn ${status === 'connected' ? 'disconnecting' : ''}" data-id="${contact.id}" data-peer="${contact.peerId}" data-name="${escapeHtml(contact.name)}">${buttonText}</button>
+                        <button class="delete-contact-btn" data-id="${contact.id}">🗑</button>
+                    </div>
+                `;
+                elements.contactsListDiv.appendChild(div);
+            });
+            document.querySelectorAll('.connect-toggle-btn').forEach(btn => { btn.onclick = () => { let id = btn.dataset.id, peerId = btn.dataset.peer, name = btn.dataset.name; if (contactStatus[id] === 'connected') { disconnectCurrent(); updateContactStatus(id, 'offline'); } else connectToContact(id, peerId, name); }; });
+            document.querySelectorAll('.delete-contact-btn').forEach(btn => { btn.onclick = () => deleteContactById(btn.dataset.id); });
         }
 
         function deleteContactById(id) {
             if (confirm('Kişiyi silmek mesaj geçmişini ve bekleyen mesajları siler.')) {
-                if (activeContactId === id) {
-                    if (currentConnection) currentConnection.close();
-                    activeContactId = null;
-                    activeContactName = "";
-                    elements.currentChatName.innerText = "Seçili kişi yok";
-                    setConnectedState(false);
-                    renderMessagesForActiveContact();
-                    showChatInterface(false);
-                }
-                contacts = contacts.filter(c => c.id !== id);
-                delete contactStatus[id];
-                delete pendingMessages[id];
-                delete messagesHistory[id];
-                delete unreadCounts[id];
-                saveContacts();
-                saveMessagesHistory();
-                renderSidebarContent();
-                updateChatHeaderStatus();
+                if (activeContactId === id) { if (currentConnection) currentConnection.close(); activeContactId = null; activeContactName = ""; elements.activeContactNameSpan.innerText = "Seçili kişi yok"; setConnectedState(false); renderMessagesForActiveContact(); }
+                contacts = contacts.filter(c => c.id !== id); delete contactStatus[id]; delete pendingMessages[id]; delete messagesHistory[id]; delete unreadCounts[id];
+                saveContacts(); saveMessagesHistory(); renderContactsList();
             }
         }
 
-        function saveContacts() { localStorage.setItem('seyficet_contacts_v2', JSON.stringify(contacts)); }
-        function saveMessagesHistory() { localStorage.setItem('seyficet_messages_v2', JSON.stringify(messagesHistory)); }
-        function loadContacts() {
-            let stored = localStorage.getItem('seyficet_contacts_v2');
-            contacts = stored ? JSON.parse(stored) : [];
-            contacts.forEach(c => { if (!contactStatus[c.id]) contactStatus[c.id] = 'offline'; if (!pendingMessages[c.id]) pendingMessages[c.id] = []; });
-            renderSidebarContent();
-        }
-        function loadMessagesHistory() {
-            let stored = localStorage.getItem('seyficet_messages_v2');
-            messagesHistory = stored ? JSON.parse(stored) : {};
+        function clearMessagesOnly() {
+            if (!activeContactId) { alert('Önce bir kişi seçin.'); return; }
+            if (confirm('Mesaj geçmişi ve bekleyen mesajlar silinecek.')) { messagesHistory[activeContactId] = []; pendingMessages[activeContactId] = []; saveMessagesHistory(); renderMessagesForActiveContact(); addSystemMessage('Mesaj geçmişi temizlendi.'); }
         }
 
-        function sendWithProgress(file, type, callback) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                callback(100);
-                sendMessageWithQueue(activeContactId, type, '', e.target.result, file.type, file.name);
-            };
-            reader.readAsDataURL(file);
+        function addSystemMessage(text) { if (!activeContactId) return; let div = document.createElement('div'); div.className = 'message received'; div.style.alignSelf = 'center'; div.innerHTML = `<div class="message-content" style="background:#eef2ff; font-size:0.7rem;">📡 ${escapeHtml(text)}</div>`; elements.messagesArea.appendChild(div); elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight; }
+
+        function initPeer() {
+            myPermanentId = getOrCreatePermanentId();
+            elements.myPeerIdDiv.textContent = myPermanentId;
+            peer = new Peer(myPermanentId, { debug: 0, config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] } });
+            peer.on('open', () => elements.statusDiv.innerHTML = '✅ Kalıcı ID aktif!');
+            peer.on('error', (err) => { if (err.type === 'unavailable-id') { localStorage.removeItem('p2p_my_permanent_id'); myPermanentId = getOrCreatePermanentId(); peer.destroy(); initPeer(); } });
+            peer.on('connection', handleIncoming);
         }
+
+        function handleIncoming(incoming) {
+            let contact = contacts.find(c => c.peerId === incoming.peer);
+            if (!contact) { incoming.close(); return; }
+            if (currentConnection && isConnected) { incoming.close(); return; }
+            if (currentConnection) currentConnection.close();
+            currentConnection = incoming;
+            activeContactId = contact.id; activeContactName = contact.name;
+            elements.activeContactNameSpan.innerText = contact.name;
+            renderMessagesForActiveContact();
+            setupConnectionEvents(currentConnection, contact.id, contact.name);
+            updateContactStatus(contact.id, 'connected'); setConnectedState(true);
+            elements.statusDiv.innerHTML = `✅ ${contact.name} ile bağlantı aktif`;
+            addSystemMessage(`${contact.name} sizinle bağlantı kurdu.`);
+            flushPendingMessages(contact.id);
+            renderContactsList();
+        }
+
+        function saveContacts() { localStorage.setItem('p2p_contacts_v2', JSON.stringify(contacts)); }
+        function saveMessagesHistory() { localStorage.setItem('p2p_messages_history_v2', JSON.stringify(messagesHistory)); }
+        function loadContacts() { let stored = localStorage.getItem('p2p_contacts_v2'); contacts = stored ? JSON.parse(stored) : []; contacts.forEach(c => { if (!contactStatus[c.id]) contactStatus[c.id] = 'offline'; if (!pendingMessages[c.id]) pendingMessages[c.id] = []; }); renderContactsList(); }
+        function loadMessagesHistory() { let stored = localStorage.getItem('p2p_messages_history_v2'); messagesHistory = stored ? JSON.parse(stored) : {}; }
 
         window.downloadFile = (url, name) => { let a = document.createElement('a'); a.href = url; a.download = name; a.click(); };
 
+        elements.addContactBtn.onclick = () => elements.modal.style.display = 'flex';
+        elements.clearMessagesBtn.onclick = clearMessagesOnly;
+        elements.modalCancelBtn.onclick = () => elements.modal.style.display = 'none';
+        elements.modalSaveBtn.onclick = () => {
+            let name = elements.contactNameInput.value.trim(), peerId = elements.contactPeerIdInput.value.trim();
+            if (!name || !peerId) { alert('Lütfen bilgileri doldurun'); return; }
+            if (contacts.some(c => c.peerId === peerId)) { alert('Bu ID zaten mevcut'); return; }
+            let newId = Date.now() + '_' + Math.random().toString(36);
+            contacts.push({ id: newId, name, peerId });
+            contactStatus[newId] = 'offline'; pendingMessages[newId] = [];
+            saveContacts(); renderContactsList(); elements.modal.style.display = 'none';
+        };
+        elements.sendButton.onclick = sendTextMessage;
+        elements.copyIdBtn.onclick = () => { navigator.clipboard.writeText(myPermanentId); elements.copyIdBtn.textContent = '✅'; setTimeout(() => elements.copyIdBtn.textContent = '📋 Kopyala', 1500); };
+        elements.messageInput.onkeypress = (e) => { if (e.key === 'Enter' && activeContactId) sendTextMessage(); };
+        
+        let emojiOpen = false;
         elements.emojiBtn.onclick = () => {
             if (emojiPicker) { emojiPicker.remove(); emojiPicker = null; return; }
             emojiPicker = document.createElement('div'); emojiPicker.className = 'emoji-picker';
             let emojis = ['😀','😂','🥰','😎','😢','😡','👍','❤️','🔥','🎉','🙏','💯','✨','🍕','☕','🏆','😍','🥺','🤣','💪'];
             emojis.forEach(e => { let span = document.createElement('span'); span.textContent = e; span.onclick = () => { sendMessageWithQueue(activeContactId, 'text', e); emojiPicker.remove(); emojiPicker = null; }; emojiPicker.appendChild(span); });
             document.body.appendChild(emojiPicker);
+            emojiPicker.style.position = 'fixed'; emojiPicker.style.bottom = '95px'; emojiPicker.style.left = '10px'; emojiPicker.style.right = '10px';
         };
         elements.fileBtn.onclick = () => { let input = document.createElement('input'); input.type = 'file'; input.onchange = (e) => { if (e.target.files[0]) sendWithProgress(e.target.files[0], 'file', (p) => {}); }; input.click(); };
         elements.imageBtn.onclick = () => { let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { if (e.target.files[0]) sendWithProgress(e.target.files[0], 'image', (p) => {}); }; input.click(); };
         
-        elements.sendButton.onclick = sendTextMessage;
-        if (elements.messageInput) elements.messageInput.onkeypress = (e) => { if (e.key === 'Enter' && activeContactId) sendTextMessage(); };
-        elements.settingsBtn.onclick = () => openSidebar('settings');
-        elements.contactsBtn.onclick = () => openSidebar('contacts');
-        elements.closeSidebar.onclick = closeSidebar;
-        function closeSidebar() { elements.sidebar.classList.remove('open'); }
-        function openSidebar(mode) { currentSidebarMode = mode; renderSidebarContent(); elements.sidebar.classList.add('open'); }
+        elements.chatContainer.addEventListener('dragover', (e) => { e.preventDefault(); let overlay = document.createElement('div'); overlay.className = 'drag-overlay'; overlay.innerHTML = '📁 Dosyayı Bırakın'; document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 500); });
+        elements.chatContainer.addEventListener('drop', (e) => { e.preventDefault(); let files = e.dataTransfer.files; if (files.length) sendWithProgress(files[0], files[0].type.startsWith('image/') ? 'image' : 'file', (p) => {}); });
         
         if (Notification.permission === 'default') Notification.requestPermission();
-        
-        loadContacts();
-        loadMessagesHistory();
-        const hasPhone = loadPhoneNumber();
-        if (hasPhone) initPeer();
-        else updateStatus('⚠️ Lütfen ayarlardan telefon numaranızı girin', true);
-        renderMessagesForActiveContact();
-        showChatInterface(false);
+        loadContacts(); loadMessagesHistory(); initPeer(); renderMessagesForActiveContact();
     </script>
 </body>
 </html>
