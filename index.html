@@ -469,6 +469,7 @@
             cursor: pointer;
             color: #334155;
             transition: 0.2s;
+            white-space: nowrap;
         }
         .mini-btn.primary {
             background: #8B5CF6;
@@ -485,6 +486,39 @@
             color: #F59E0B;
             margin-top: 8px;
             text-align: center;
+        }
+        /* Tema seçim kartları grid */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .theme-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid #E2E8F0;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #334155;
+        }
+        .theme-card.active-theme {
+            border: 2px solid #8B5CF6;
+            background: #F5F3FF;
+            color: #7C3AED;
+            transform: scale(0.98);
+        }
+        .theme-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         /* Kişi listesi - açık tema kartlar */
@@ -794,6 +828,7 @@
         let contactStatus = {};
         let unreadCounts = {};
         let currentSidebarMode = 'settings';
+        let currentTheme = localStorage.getItem('seyficet_theme') || 'default';
 
         const elements = {
             statusDiv: document.getElementById('status'),
@@ -812,6 +847,93 @@
             sidebarContent: document.getElementById('sidebarContent'),
             closeSidebar: document.getElementById('closeSidebar')
         };
+
+        // Temalar
+        const themes = {
+            default: {
+                name: 'Mor Akış',
+                preview: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+                headerGradient: 'linear-gradient(115deg, #8B5CF6, #7C3AED)',
+                messageSentGradient: 'linear-gradient(115deg, #8B5CF6, #7C3AED)',
+                accentColor: '#8B5CF6',
+                bgMessages: '#F9FAFB',
+                receivedBg: '#FFFFFF'
+            },
+            dark: {
+                name: 'Gece Mavisi',
+                preview: '#1E293B',
+                headerGradient: '#1E293B',
+                messageSentGradient: '#3B82F6',
+                accentColor: '#3B82F6',
+                bgMessages: '#0F172A',
+                receivedBg: '#334155'
+            },
+            ocean: {
+                name: 'Okyanus',
+                preview: 'linear-gradient(145deg, #06B6D4, #3B82F6)',
+                headerGradient: 'linear-gradient(145deg, #06B6D4, #3B82F6)',
+                messageSentGradient: 'linear-gradient(145deg, #06B6D4, #3B82F6)',
+                accentColor: '#06B6D4',
+                bgMessages: '#ECFEFF',
+                receivedBg: '#FFFFFF'
+            },
+            sunset: {
+                name: 'Gün Batımı',
+                preview: 'linear-gradient(115deg, #F97316, #EF4444)',
+                headerGradient: 'linear-gradient(115deg, #F97316, #EF4444)',
+                messageSentGradient: 'linear-gradient(115deg, #F97316, #EF4444)',
+                accentColor: '#F97316',
+                bgMessages: '#FFF7ED',
+                receivedBg: '#FFFFFF'
+            },
+            forest: {
+                name: 'Orman',
+                preview: 'linear-gradient(135deg, #10B981, #059669)',
+                headerGradient: 'linear-gradient(135deg, #10B981, #059669)',
+                messageSentGradient: 'linear-gradient(135deg, #10B981, #059669)',
+                accentColor: '#10B981',
+                bgMessages: '#F0FDF4',
+                receivedBg: '#FFFFFF'
+            },
+            cherry: {
+                name: 'Kiraz',
+                preview: 'linear-gradient(135deg, #EC489A, #DB2777)',
+                headerGradient: 'linear-gradient(135deg, #EC489A, #DB2777)',
+                messageSentGradient: 'linear-gradient(135deg, #EC489A, #DB2777)',
+                accentColor: '#EC489A',
+                bgMessages: '#FDF2F8',
+                receivedBg: '#FFFFFF'
+            }
+        };
+
+        function applyTheme(themeId) {
+            if (!themes[themeId]) themeId = 'default';
+            currentTheme = themeId;
+            localStorage.setItem('seyficet_theme', themeId);
+            const t = themes[themeId];
+            const style = document.createElement('style');
+            style.id = 'dynamic-theme-style';
+            const oldStyle = document.getElementById('dynamic-theme-style');
+            if (oldStyle) oldStyle.remove();
+            style.innerHTML = `
+                .header-text h2 { background: ${t.headerGradient}; -webkit-background-clip: text; background-clip: text; color: transparent; }
+                .sent .message-content { background: ${t.messageSentGradient} !important; }
+                .icon-btn:hover, .icon-btn:active { background: ${t.accentColor}; border-color: ${t.accentColor}; }
+                .messages-area { background: ${t.bgMessages} !important; }
+                .received .message-content { background: ${t.receivedBg} !important; border-color: ${t.accentColor}40; }
+                .chat-contact-name { background: ${t.accentColor}20; color: #0F172A; }
+                .mini-btn.primary, .add-contact-btn-sidebar, .modal-save { background: ${t.messageSentGradient}; }
+                .chat-status-light.online { background: #10B981; box-shadow: 0 0 8px #10B981; }
+                .sidebar-header h3 { background: ${t.headerGradient}; -webkit-background-clip: text; background-clip: text; color: transparent; }
+                .typing-badge-small { background: ${t.accentColor}20; color: ${t.accentColor}; }
+                #sendButton { background: ${t.messageSentGradient}; }
+                #sendButton:hover { filter: brightness(1.05); }
+                .settings-label { color: ${t.accentColor}; }
+                .contact-item-sidebar.active-contact { border-left-color: ${t.accentColor}; background: ${t.accentColor}10; }
+            `;
+            document.head.appendChild(style);
+            if (elements.sidebarContent && currentSidebarMode === 'settings') renderSidebarContent();
+        }
 
         function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
         function showNotification(title, body) { if (Notification.permission === 'granted') new Notification(title, { body }); else if (Notification.permission !== 'denied') Notification.requestPermission(); }
@@ -901,7 +1023,30 @@
 
         let editingContactId = null;
         function showEditContactModal(contactId, currentName, currentPhone) { editingContactId = contactId; const modal = document.getElementById('editContactModal'); document.getElementById('editContactNameInput').value = currentName; document.getElementById('editContactPhoneInput').value = currentPhone; modal.style.display = 'flex'; const saveHandler = () => { let newName = document.getElementById('editContactNameInput').value.trim(); let newPhone = document.getElementById('editContactPhoneInput').value.trim().replace(/\s/g,''); if(!newName||!newPhone) { alert('Ad ve telefon gerekli'); return; } if(newPhone===myPhoneNumber) { alert('Kendi numaranızı ekleyemezsiniz'); return; } if(contacts.some(c=>c.id!==contactId && c.phoneNumber===newPhone)) { alert('Bu numara başka kişide kayıtlı'); return; } let idx = contacts.findIndex(c=>c.id===contactId); if(idx!==-1){ contacts[idx].name=newName; contacts[idx].phoneNumber=newPhone; if(activeContactId===contactId){ activeContactName=newName; elements.currentChatName.innerText=newName; } saveContacts(); renderSidebarContent(); renderMessagesForActiveContact(); } modal.style.display='none'; cleanup(); }; const cancelHandler = () => { modal.style.display='none'; cleanup(); }; const cleanup = () => { document.getElementById('editContactSaveBtn').removeEventListener('click', saveHandler); document.getElementById('editContactCancelBtn').removeEventListener('click', cancelHandler); }; document.getElementById('editContactSaveBtn').addEventListener('click', saveHandler); document.getElementById('editContactCancelBtn').addEventListener('click', cancelHandler); }
-        function renderSidebarContent() { if(!elements.sidebarContent) return; if(currentSidebarMode==='settings') { elements.sidebarTitle.innerText = '⚙️ Ayarlar'; elements.sidebarContent.innerHTML = `<div class="settings-section"><div class="settings-label">📞 TELEFON NUMARANIZ</div><div class="settings-value"><span>${myPhoneNumber && myPhoneNumber!=="" ? escapeHtml(myPhoneNumber) : "Henüz ayarlanmadı"}</span><button class="mini-btn primary" id="editPhoneSettingsBtn">${myPhoneNumber?"✏️ Düzenle":"➕ Ekle"}</button></div><div class="warning-text">⚠️ Bu numara sizin kimliğinizdir.</div></div><hr><div class="settings-section"><div class="settings-label">🗑️ SOHBET GEÇMİŞİ</div><div class="settings-value"><span>Aktif sohbetin mesajlarını siler</span><button class="mini-btn danger" id="clearHistorySettingsBtn">🧹 Temizle</button></div></div>`; document.getElementById('editPhoneSettingsBtn')?.addEventListener('click', ()=>document.getElementById('editPhoneModal').style.display='flex'); document.getElementById('clearHistorySettingsBtn')?.addEventListener('click', ()=>{ if(activeContactId && confirm('Mesajlar silinsin mi?')){ messagesHistory[activeContactId]=[]; saveMessagesHistory(); renderMessagesForActiveContact(); updateStatus('Sohbet temizlendi'); } }); } else { elements.sidebarTitle.innerText = '📒 Kişilerim'; let contactsHtml = '<div class="contacts-list-sidebar">'; if(contacts.length===0) contactsHtml += '<div style="text-align:center; color:#64748b;">📭 Henüz kişi yok</div>'; else contacts.forEach(c => { let status = contactStatus[c.id]||'offline'; let isOnline = status === 'connected'; contactsHtml += `<div class="contact-item-sidebar ${activeContactId===c.id?'active-contact':''}" data-contact-id="${c.id}"><div class="contact-info-sidebar contact-clickable" data-id="${c.id}" data-phone="${c.phoneNumber}" data-name="${escapeHtml(c.name)}"><div class="contact-name-sidebar">${escapeHtml(c.name)}${isOnline?'<span class="contact-badge online">● Çevrimiçi</span>':''}${pendingMessages[c.id]?.length?`<span class="contact-badge pending">📬 ${pendingMessages[c.id].length}</span>`:''}${unreadCounts[c.id]?`<span class="contact-badge unread">🔔 ${unreadCounts[c.id]}</span>`:''}</div><div class="contact-phone-sidebar">📞 ${escapeHtml(c.phoneNumber)}</div></div><div class="contact-actions-sidebar"><button class="contact-action-btn edit-key" data-id="${c.id}" data-name="${escapeHtml(c.name)}" data-phone="${c.phoneNumber}">🔧</button></div></div>`; }); contactsHtml += `<button class="add-contact-btn-sidebar" id="addContactSidebarBtn">+ Yeni Kişi Ekle</button></div>`; elements.sidebarContent.innerHTML = contactsHtml; document.querySelectorAll('.contact-clickable').forEach(el=>{ el.addEventListener('click',(e)=>{ e.stopPropagation(); connectToContact(el.dataset.id, el.dataset.phone, el.dataset.name); closeSidebar(); }); }); document.querySelectorAll('.edit-key').forEach(btn=>{ btn.addEventListener('click',(e)=>{ e.stopPropagation(); let c = contacts.find(c=>c.id === btn.dataset.id); if(c) showEditContactModal(c.id, c.name, c.phoneNumber); }); }); document.getElementById('addContactSidebarBtn')?.addEventListener('click',()=>{ closeSidebar(); document.getElementById('contactModal').style.display='flex'; }); } }
+        
+        function renderSidebarContent() { 
+            if(!elements.sidebarContent) return; 
+            if(currentSidebarMode==='settings') { 
+                elements.sidebarTitle.innerText = '⚙️ Ayarlar'; 
+                let themeOptionsHtml = Object.entries(themes).map(([key, t]) => `<div class="theme-card ${currentTheme === key ? 'active-theme' : ''}" data-theme="${key}"><div class="theme-preview" style="background: ${t.preview};"></div><span>${t.name}</span></div>`).join('');
+                elements.sidebarContent.innerHTML = `<div class="settings-section"><div class="settings-label">🎨 TEMA SEÇ</div><div class="theme-grid">${themeOptionsHtml}</div></div><div class="settings-section"><div class="settings-label">📞 TELEFON NUMARANIZ</div><div class="settings-value"><span>${myPhoneNumber && myPhoneNumber!=="" ? escapeHtml(myPhoneNumber) : "Henüz ayarlanmadı"}</span><button class="mini-btn primary" id="editPhoneSettingsBtn">${myPhoneNumber?"✏️ Düzenle":"➕ Ekle"}</button></div><div class="warning-text">⚠️ Bu numara sizin kimliğinizdir.</div></div><hr><div class="settings-section"><div class="settings-label">🗑️ SOHBET GEÇMİŞİ</div><div class="settings-value"><span>Aktif sohbetin mesajlarını siler</span><button class="mini-btn danger" id="clearHistorySettingsBtn">🧹 Temizle</button></div></div>`; 
+                document.getElementById('editPhoneSettingsBtn')?.addEventListener('click', ()=>document.getElementById('editPhoneModal').style.display='flex');
+                document.getElementById('clearHistorySettingsBtn')?.addEventListener('click', ()=>{ if(activeContactId && confirm('Mesajlar silinsin mi?')){ messagesHistory[activeContactId]=[]; saveMessagesHistory(); renderMessagesForActiveContact(); updateStatus('Sohbet temizlendi'); } });
+                document.querySelectorAll('.theme-card').forEach(card => {
+                    card.addEventListener('click', () => { applyTheme(card.dataset.theme); renderSidebarContent(); });
+                });
+            } else { 
+                elements.sidebarTitle.innerText = '📒 Kişilerim'; 
+                let contactsHtml = '<div class="contacts-list-sidebar">'; 
+                if(contacts.length===0) contactsHtml += '<div style="text-align:center; color:#64748b;">📭 Henüz kişi yok</div>'; 
+                else contacts.forEach(c => { let status = contactStatus[c.id]||'offline'; let isOnline = status === 'connected'; contactsHtml += `<div class="contact-item-sidebar ${activeContactId===c.id?'active-contact':''}" data-contact-id="${c.id}"><div class="contact-info-sidebar contact-clickable" data-id="${c.id}" data-phone="${c.phoneNumber}" data-name="${escapeHtml(c.name)}"><div class="contact-name-sidebar">${escapeHtml(c.name)}${isOnline?'<span class="contact-badge online">● Çevrimiçi</span>':''}${pendingMessages[c.id]?.length?`<span class="contact-badge pending">📬 ${pendingMessages[c.id].length}</span>`:''}${unreadCounts[c.id]?`<span class="contact-badge unread">🔔 ${unreadCounts[c.id]}</span>`:''}</div><div class="contact-phone-sidebar">📞 ${escapeHtml(c.phoneNumber)}</div></div><div class="contact-actions-sidebar"><button class="contact-action-btn edit-key" data-id="${c.id}" data-name="${escapeHtml(c.name)}" data-phone="${c.phoneNumber}">🔧</button></div></div>`; }); 
+                contactsHtml += `<button class="add-contact-btn-sidebar" id="addContactSidebarBtn">+ Yeni Kişi Ekle</button></div>`; 
+                elements.sidebarContent.innerHTML = contactsHtml; 
+                document.querySelectorAll('.contact-clickable').forEach(el=>{ el.addEventListener('click',(e)=>{ e.stopPropagation(); connectToContact(el.dataset.id, el.dataset.phone, el.dataset.name); closeSidebar(); }); }); 
+                document.querySelectorAll('.edit-key').forEach(btn=>{ btn.addEventListener('click',(e)=>{ e.stopPropagation(); let c = contacts.find(c=>c.id === btn.dataset.id); if(c) showEditContactModal(c.id, c.name, c.phoneNumber); }); }); 
+                document.getElementById('addContactSidebarBtn')?.addEventListener('click',()=>{ closeSidebar(); document.getElementById('contactModal').style.display='flex'; }); 
+            } 
+        }
         function showAddContactLogic() { const modal = document.getElementById('contactModal'); const nameInput = document.getElementById('contactNameInput'); const phoneInput = document.getElementById('contactPhoneInput'); nameInput.value=''; phoneInput.value=''; modal.style.display='flex'; const saveHandler = () => { let name = nameInput.value.trim(); let phone = phoneInput.value.trim().replace(/\s/g,''); if(!name||!phone) { alert('Tüm alanlar gerekli'); return; } if(contacts.some(c=>c.phoneNumber===phone)) { alert('Bu numara zaten var'); return; } if(phone===myPhoneNumber) { alert('Kendi numaranızı ekleyemezsiniz'); return; } let newId = Date.now()+'_'+Math.random().toString(36); contacts.push({ id:newId, name, phoneNumber:phone }); contactStatus[newId]='offline'; pendingMessages[newId]=[]; saveContacts(); renderSidebarContent(); modal.style.display='none'; cleanup(); }; const cancelHandler = () => { modal.style.display='none'; cleanup(); }; const cleanup = () => { document.getElementById('modalSaveBtn').removeEventListener('click', saveHandler); document.getElementById('modalCancelBtn').removeEventListener('click', cancelHandler); }; document.getElementById('modalSaveBtn').addEventListener('click', saveHandler); document.getElementById('modalCancelBtn').addEventListener('click', cancelHandler); }
         function saveContacts() { localStorage.setItem('seyficet_contacts_v2', JSON.stringify(contacts)); }
         function saveMessagesHistory() { localStorage.setItem('seyficet_messages_v2', JSON.stringify(messagesHistory)); }
@@ -916,6 +1061,7 @@
         if(Notification.permission==='default') Notification.requestPermission();
         loadContacts(); loadMessagesHistory(); const hasPhone = loadPhoneNumber(); if(hasPhone) initPeer(); else updateStatus('⚠️ Lütfen ayarlardan telefon numaranızı girin', true);
         renderMessagesForActiveContact(); showChatInterface(false);
+        applyTheme(currentTheme);
         document.getElementById('editPhoneSave').onclick = () => { let newPhone = document.getElementById('editPhoneInput').value.trim().replace(/\s/g,''); if(newPhone) savePhoneNumber(newPhone); document.getElementById('editPhoneModal').style.display='none'; renderSidebarContent(); };
         document.getElementById('editPhoneCancel').onclick = () => document.getElementById('editPhoneModal').style.display='none';
         document.getElementById('modalSaveBtn').onclick = () => showAddContactLogic();
