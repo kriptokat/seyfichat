@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>NEXUS CHAT | Kuantum P2P</title>
+    <title>SEYFİ CHAT - Lite P2P</title>
     <style>
         * {
             margin: 0;
@@ -96,17 +96,19 @@
             }
         }
 
-        /* HEADER - neon cam */
+        /* HEADER - neon cam, tam görünür */
         .app-header {
-            background: rgba(0, 20, 40, 0.7);
+            background: rgba(0, 20, 40, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.4);
-            padding: 12px 18px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.5);
+            padding: 14px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            /* güvenli alan - iOS için */
+            padding-top: max(14px, env(safe-area-inset-top));
         }
         .logo-section {
             display: flex;
@@ -130,9 +132,10 @@
         }
         .sub-title {
             font-size: 0.6rem;
-            opacity: 0.8;
+            opacity: 0.9;
             color: #8ae2ff;
             letter-spacing: 1px;
+            font-weight: 500;
         }
         .header-buttons {
             display: flex;
@@ -160,27 +163,28 @@
             transform: scale(1.05);
         }
 
-        /* BAĞLANTI ÇUBUĞU - sade ama neon */
+        /* BAĞLANTI ÇUBUĞU - sadece kritik hatalar için, normal durumda minimal */
         .connection-bar {
-            background: rgba(0, 20, 40, 0.8);
+            background: rgba(0, 20, 40, 0.7);
             color: #0ff;
-            padding: 5px 12px;
+            padding: 4px 12px;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             flex-shrink: 0;
             font-family: monospace;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(0,255,255,0.3);
+            border-bottom: 1px solid rgba(0,255,255,0.2);
             backdrop-filter: blur(8px);
+            transition: all 0.2s;
         }
         .connection-bar.error {
-            background: rgba(255, 30, 80, 0.2);
-            color: #ff5e7e;
+            background: rgba(255, 30, 80, 0.25);
+            color: #ff7e9e;
             border-bottom-color: #ff3366;
         }
-        .connection-bar.success {
-            background: rgba(0, 200, 100, 0.2);
-            color: #2effb0;
+        /* başarı mesajlarını gösterme, sadece hata durumunda görünür */
+        .connection-bar:empty {
+            display: none;
         }
 
         /* SOHBET BAŞLIK - holografik */
@@ -336,7 +340,7 @@
             box-shadow: 0 0 8px cyan;
             letter-spacing: 0.5px;
         }
-        #sendButton:hover {
+        #sendButton:hover:not(:disabled) {
             transform: scale(1.02);
             background: linear-gradient(95deg, #2a7eff, #2ad4ff);
             box-shadow: 0 0 16px cyan;
@@ -345,6 +349,7 @@
             opacity: 0.4;
             transform: none;
             box-shadow: none;
+            cursor: not-allowed;
         }
 
         /* SIDEBAR - cam + neon */
@@ -371,6 +376,7 @@
         .sidebar-header {
             background: linear-gradient(95deg, #0b1b3a, #04102a);
             padding: 24px 20px;
+            padding-top: max(24px, env(safe-area-inset-top));
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -594,16 +600,6 @@
             margin: 20px;
             border: 1px dashed cyan;
         }
-        .system-message {
-            background: rgba(0, 255, 255, 0.1);
-            font-size: 0.7rem;
-            text-align: center;
-            padding: 5px 12px;
-            border-radius: 40px;
-            max-width: 80%;
-            margin: 4px auto;
-            color: #8ae2ff;
-        }
         hr {
             margin: 20px 0;
             border-color: rgba(0,255,255,0.3);
@@ -617,8 +613,8 @@
             <div class="logo-section">
                 <div class="logo-icon">⚡🌀</div>
                 <div class="header-text">
-                    <h2>NEXUS</h2>
-                    <div class="sub-title">◢ P2P ENCRYPTED ◣</div>
+                    <h2>SEYFİ CHAT</h2>
+                    <div class="sub-title">◢ Lite ◣</div>
                 </div>
             </div>
             <div class="header-buttons">
@@ -626,7 +622,7 @@
                 <button class="icon-btn" id="contactsBtn">👥</button>
             </div>
         </div>
-        <div class="connection-bar" id="status">🌌 BAŞLATILIYOR...</div>
+        <div class="connection-bar" id="status"></div>
 
         <div class="current-chat-header" id="currentChatHeader" style="display: none;">
             <div class="chat-contact-info">
@@ -671,9 +667,9 @@
 
 <div id="editPhoneModal" style="display: none;" class="modal-overlay">
     <div class="modal-content">
-        <h3>📡 BENİM NEXUS ID</h3>
+        <h3>📡 BENİM ID</h3>
         <input type="tel" id="editPhoneInput" placeholder="+905551234567">
-        <div class="warning-text">⚠️ BU ID SİZİN KRİPTO KİMLİĞİNİZ</div>
+        <div class="warning-text">⚠️ BU NUMARA SİZİN KRİPTO KİMLİĞİNİZ</div>
         <div class="modal-buttons">
             <button class="modal-cancel" id="editPhoneCancel">VAZGEÇ</button>
             <button class="modal-save" id="editPhoneSave">KAYDET</button>
@@ -695,7 +691,7 @@
 
 <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
 <script>
-    // ========= FUTURISTIC P2P MESSENGER =========
+    // ========= SEYFİ CHAT LITE - SESSİZ BAĞLANTI, SADECE IŞIK =========
     const PEER_CONFIG = {
         debug: 0,
         config: {
@@ -740,27 +736,32 @@
 
     function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
     function showNotification(title, body) { if (Notification.permission === 'granted') new Notification(title, { body }); else if (Notification.permission !== 'denied') Notification.requestPermission(); }
+    
+    // SESSİZ STATUS: sadece hata durumunda göster, normal bağlantı mesajları yok
     function updateStatus(message, isError = false) {
-        elements.statusDiv.innerHTML = message;
-        elements.statusDiv.classList.remove('error', 'success');
-        if (isError) elements.statusDiv.classList.add('error');
-        else elements.statusDiv.classList.add('success');
-        setTimeout(() => { if(!isError && elements.statusDiv.innerHTML === message) { elements.statusDiv.classList.remove('success'); } }, 2000);
+        if (isError) {
+            elements.statusDiv.innerHTML = message;
+            elements.statusDiv.classList.add('error');
+            setTimeout(() => { if(elements.statusDiv.innerHTML === message) elements.statusDiv.innerHTML = ''; }, 3000);
+        } else {
+            // başarı / bilgi mesajlarını gösterme - sadece hata göster
+            if(elements.statusDiv.innerHTML) elements.statusDiv.innerHTML = '';
+            elements.statusDiv.classList.remove('error');
+        }
     }
 
     function loadPhoneNumber() { let saved = localStorage.getItem('seyficet_phone'); if (saved && saved.trim() !== "") { myPhoneNumber = saved.trim(); return true; } myPhoneNumber = ""; return false; }
     function savePhoneNumber(phone) {
-        if (!phone || phone.trim() === "") { myPhoneNumber = ""; localStorage.removeItem('seyficet_phone'); if (peer) peer.destroy(); peer = null; updateStatus('⚠️ NUMARA YOK', true); return false; }
+        if (!phone || phone.trim() === "") { myPhoneNumber = ""; localStorage.removeItem('seyficet_phone'); if (peer) peer.destroy(); peer = null; updateStatus('⚠️ ID GEREKLİ', true); return false; }
         let cleanPhone = phone.trim().replace(/\s/g, ''); myPhoneNumber = cleanPhone; localStorage.setItem('seyficet_phone', myPhoneNumber); initPeer(); return true;
     }
 
     function initPeer() {
         if (!myPhoneNumber) { updateStatus('⚠️ AYARLARDAN ID GİRİN', true); return; }
         if (peer) { peer.destroy(); peer = null; }
-        updateStatus(`🌀 ${myPhoneNumber} BAĞLANIYOR...`);
         try {
             peer = new Peer(myPhoneNumber, PEER_CONFIG);
-            peer.on('open', (id) => { updateStatus(`✅ ${id} AKTİF | HAZIR`, false); });
+            peer.on('open', (id) => { /* sessiz */ });
             peer.on('error', (err) => {
                 console.error(err);
                 if (err.type === 'unavailable-id') updateStatus(`❌ ID KULLANIMDA!`, true);
@@ -768,7 +769,7 @@
             });
             peer.on('connection', handleIncomingConnection);
             peer.on('disconnected', () => { updateStatus(`⚠️ BAĞLANTI KESİLDİ`, true); setTimeout(() => { if (peer) peer.reconnect(); }, 3000); });
-        } catch(e) { updateStatus(`❌ HATA: ${e.message}`, true); }
+        } catch(e) { updateStatus(`❌ HATA`, true); }
     }
 
     function handleIncomingConnection(incoming) {
@@ -781,7 +782,6 @@
         setupConnectionEvents(currentConnection, contact.id, contact.name);
         updateContactStatus(contact.id, 'connected');
         setConnectedState(true);
-        updateStatus(`🔗 ${contact.name} BAĞLANDI`, false);
         flushPendingMessages(contact.id);
         showChatInterface(true);
         renderMessagesForActiveContact();
@@ -797,7 +797,7 @@
                 else if (data.type === 'typing') { elements.chatTypingIndicator.style.display = 'inline-block'; if (typingTimeout) clearTimeout(typingTimeout); typingTimeout = setTimeout(() => elements.chatTypingIndicator.style.display = 'none', 2000); }
             }
         });
-        connection.on('close', () => { if (activeContactId === contactId && currentConnection === connection) { updateContactStatus(contactId, 'offline'); setConnectedState(false); currentConnection = null; isConnected = false; updateStatus(`❌ ${contactName} BAĞLANTI KOPTU`, true); } });
+        connection.on('close', () => { if (activeContactId === contactId && currentConnection === connection) { updateContactStatus(contactId, 'offline'); setConnectedState(false); currentConnection = null; isConnected = false; } });
     }
 
     function connectToContact(id, phoneNumber, name) {
@@ -805,18 +805,18 @@
         if (activeContactId === id && isConnected) return;
         if (currentConnection) disconnectCurrent();
         activeContactId = id; activeContactName = name; elements.currentChatName.innerText = name;
-        updateChatHeaderStatus(); renderMessagesForActiveContact(); updateContactStatus(id, 'connecting'); updateStatus(`🔌 ${name} BAĞLANIYOR...`); showChatInterface(true);
+        updateChatHeaderStatus(); renderMessagesForActiveContact(); updateContactStatus(id, 'connecting'); showChatInterface(true);
         try {
             let newConn = peer.connect(phoneNumber);
             if (!newConn) { updateContactStatus(id, 'offline'); updateStatus(`❌ BAĞLANTI BAŞARISIZ`, true); return; }
             currentConnection = newConn; setupConnectionEvents(currentConnection, id, name);
-            setTimeout(() => { if (currentConnection === newConn && !isConnected) { updateContactStatus(id, 'offline'); setConnectedState(false); if (currentConnection === newConn) currentConnection = null; updateStatus(`⏰ ZAMAN AŞIMI`, true); } }, 15000);
-        } catch(e) { updateContactStatus(id, 'offline'); updateStatus(`❌ HATA: ${e.message}`, true); }
+            setTimeout(() => { if (currentConnection === newConn && !isConnected) { updateContactStatus(id, 'offline'); setConnectedState(false); if (currentConnection === newConn) currentConnection = null; } }, 15000);
+        } catch(e) { updateContactStatus(id, 'offline'); updateStatus(`❌ HATA`, true); }
     }
 
-    function disconnectCurrent() { if (currentConnection) { let contact = contacts.find(c => c.id === activeContactId); if (contact) updateContactStatus(activeContactId, 'offline'); currentConnection.close(); currentConnection = null; isConnected = false; setConnectedState(false); updateStatus('❌ BAĞLANTI SONLANDI'); } }
+    function disconnectCurrent() { if (currentConnection) { let contact = contacts.find(c => c.id === activeContactId); if (contact) updateContactStatus(activeContactId, 'offline'); currentConnection.close(); currentConnection = null; isConnected = false; setConnectedState(false); } }
 
-    function sendTextMessage() { if (!activeContactId) return; let text = elements.messageInput.value.trim(); if (!text) return; sendMessageNow(activeContactId, 'text', text); elements.messageInput.value = ''; }
+    function sendTextMessage() { if (!activeContactId || !isConnected) return; let text = elements.messageInput.value.trim(); if (!text) return; sendMessageNow(activeContactId, 'text', text); elements.messageInput.value = ''; }
 
     function sendMessageNow(contactId, type, content) {
         const isConnectedNow = (activeContactId === contactId && isConnected && currentConnection);
@@ -846,7 +846,7 @@
     function showChatInterface(show) { if (show && activeContactId) { elements.inputContainer.style.display = 'block'; elements.currentChatHeader.style.display = 'flex'; } else if (!activeContactId) { elements.inputContainer.style.display = 'none'; elements.currentChatHeader.style.display = 'none'; } }
 
     function showEditContactModal(contactId, currentName, currentPhone) {
-        let editingContactId = contactId; const modal = document.getElementById('editContactModal'); document.getElementById('editContactNameInput').value = currentName; document.getElementById('editContactPhoneInput').value = currentPhone; modal.style.display = 'flex';
+        const modal = document.getElementById('editContactModal'); document.getElementById('editContactNameInput').value = currentName; document.getElementById('editContactPhoneInput').value = currentPhone; modal.style.display = 'flex';
         const saveHandler = () => { let newName = document.getElementById('editContactNameInput').value.trim(); let newPhone = document.getElementById('editContactPhoneInput').value.trim().replace(/\s/g, ''); if (!newName || !newPhone) { alert('Ad ve numara gerekli'); return; } if (newPhone === myPhoneNumber) { alert('Kendi ID eklenemez'); return; } if (contacts.some(c => c.id !== contactId && c.phoneNumber === newPhone)) { alert('Bu ID zaten kayıtlı'); return; } let contactIndex = contacts.findIndex(c => c.id === contactId); if (contactIndex !== -1) { contacts[contactIndex].name = newName; contacts[contactIndex].phoneNumber = newPhone; if (activeContactId === contactId) { activeContactName = newName; elements.currentChatName.innerText = newName; } saveContacts(); renderSidebarContent(); renderMessagesForActiveContact(); } modal.style.display = 'none'; cleanup(); };
         const cancelHandler = () => { modal.style.display = 'none'; cleanup(); };
         const cleanup = () => { document.getElementById('editContactSaveBtn').removeEventListener('click', saveHandler); document.getElementById('editContactCancelBtn').removeEventListener('click', cancelHandler); };
@@ -856,8 +856,8 @@
     function renderSidebarContent() {
         if (!elements.sidebarContent) return;
         if (currentSidebarMode === 'settings') {
-            elements.sidebarTitle.innerText = '⚙️ KRİPTO AYARLAR'; elements.sidebarContent.innerHTML = `<div class="settings-section"><div class="settings-label">📡 NEXUS ID</div><div class="settings-value"><span>${myPhoneNumber && myPhoneNumber !== "" ? escapeHtml(myPhoneNumber) : "TANIMLI DEĞİL"}</span><button class="mini-btn primary" id="editPhoneSettingsBtn">${myPhoneNumber ? "✏️ DÜZENLE" : "➕ OLUŞTUR"}</button></div><div class="warning-text">⚠️ BU ID SİZİN KRİPTO KİMLİĞİNİZ</div></div><hr><div class="settings-section"><div class="settings-label">🗑️ SOHBET SİL</div><div class="settings-value"><span>AKTİF KİŞİNİN GEÇMİŞİ</span><button class="mini-btn danger" id="clearHistorySettingsBtn">🧹 TEMİZLE</button></div></div>`;
-            document.getElementById('editPhoneSettingsBtn')?.addEventListener('click', () => { document.getElementById('editPhoneModal').style.display = 'flex'; }); document.getElementById('clearHistorySettingsBtn')?.addEventListener('click', () => { if (!activeContactId) { alert('Aktif sohbet yok'); return; } if(confirm('Tüm mesajlar silinsin mi?')) { messagesHistory[activeContactId] = []; saveMessagesHistory(); renderMessagesForActiveContact(); updateStatus('💬 GEÇMİŞ TEMİZLENDİ', false); } });
+            elements.sidebarTitle.innerText = '⚙️ KRİPTO AYARLAR'; elements.sidebarContent.innerHTML = `<div class="settings-section"><div class="settings-label">📡 BENİM ID</div><div class="settings-value"><span>${myPhoneNumber && myPhoneNumber !== "" ? escapeHtml(myPhoneNumber) : "TANIMLI DEĞİL"}</span><button class="mini-btn primary" id="editPhoneSettingsBtn">${myPhoneNumber ? "✏️ DÜZENLE" : "➕ OLUŞTUR"}</button></div><div class="warning-text">⚠️ BU ID SİZİN KRİPTO KİMLİĞİNİZ</div></div><hr><div class="settings-section"><div class="settings-label">🗑️ SOHBET SİL</div><div class="settings-value"><span>AKTİF KİŞİNİN GEÇMİŞİ</span><button class="mini-btn danger" id="clearHistorySettingsBtn">🧹 TEMİZLE</button></div></div>`;
+            document.getElementById('editPhoneSettingsBtn')?.addEventListener('click', () => { document.getElementById('editPhoneModal').style.display = 'flex'; }); document.getElementById('clearHistorySettingsBtn')?.addEventListener('click', () => { if (!activeContactId) { alert('Aktif sohbet yok'); return; } if(confirm('Tüm mesajlar silinsin mi?')) { messagesHistory[activeContactId] = []; saveMessagesHistory(); renderMessagesForActiveContact(); } });
         } else {
             elements.sidebarTitle.innerText = '👥 KRİPTO BAĞLANTILAR'; let contactsHtml = '<div class="contacts-list-sidebar">'; if (contacts.length === 0) contactsHtml += '<div style="text-align:center; color:#8aaee0;">📡 BAĞLANTI YOK</div>'; else contacts.forEach(contact => { let status = contactStatus[contact.id] || 'offline'; let isActive = activeContactId === contact.id; let pendingCount = pendingMessages[contact.id]?.length || 0; let unreadCount = unreadCounts[contact.id] || 0; let isOnline = status === 'connected'; contactsHtml += `<div class="contact-item-sidebar ${isActive ? 'active-contact' : ''}" data-contact-id="${contact.id}"><div class="contact-info-sidebar contact-clickable" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}"><div class="contact-name-sidebar">${escapeHtml(contact.name)}${isOnline ? '<span class="contact-badge online">● AKTİF</span>' : ''}${pendingCount ? `<span class="contact-badge pending">📬 ${pendingCount}</span>` : ''}${unreadCount ? `<span class="contact-badge unread">🔔 ${unreadCount}</span>` : ''}</div><div class="contact-phone-sidebar">📞 ${escapeHtml(contact.phoneNumber)}</div></div><div class="contact-actions-sidebar"><button class="contact-action-btn edit-key" data-id="${contact.id}" data-name="${escapeHtml(contact.name)}" data-phone="${contact.phoneNumber}">🔧</button></div></div>`; }); contactsHtml += `<button class="add-contact-btn-sidebar" id="addContactSidebarBtn">+ YENİ BAĞLANTI</button></div>`; elements.sidebarContent.innerHTML = contactsHtml;
             document.querySelectorAll('.contact-clickable').forEach(el => { el.addEventListener('click', (e) => { e.stopPropagation(); let id = el.dataset.id; let phone = el.dataset.phone; let name = el.dataset.name; connectToContact(id, phone, name); closeSidebar(); }); }); document.querySelectorAll('.edit-key').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); let id = btn.dataset.id; let contact = contacts.find(c => c.id === id); if (contact) showEditContactModal(id, contact.name, contact.phoneNumber); }); }); document.getElementById('addContactSidebarBtn')?.addEventListener('click', () => { closeSidebar(); showAddContactModal(); });
@@ -870,7 +870,7 @@
     function loadContacts() { let stored = localStorage.getItem('seyficet_contacts_v2'); contacts = stored ? JSON.parse(stored) : []; contacts.forEach(c => { if (!contactStatus[c.id]) contactStatus[c.id] = 'offline'; if (!pendingMessages[c.id]) pendingMessages[c.id] = []; }); renderSidebarContent(); }
     function loadMessagesHistory() { let stored = localStorage.getItem('seyficet_messages_v2'); messagesHistory = stored ? JSON.parse(stored) : {}; }
 
-    elements.sendButton.onclick = sendTextMessage; elements.messageInput.onkeypress = (e) => { if (e.key === 'Enter' && activeContactId) sendTextMessage(); };
+    elements.sendButton.onclick = sendTextMessage; elements.messageInput.onkeypress = (e) => { if (e.key === 'Enter' && activeContactId && isConnected) sendTextMessage(); };
     elements.settingsBtn.onclick = () => openSidebar('settings'); elements.contactsBtn.onclick = () => openSidebar('contacts'); elements.closeSidebar.onclick = closeSidebar;
     function closeSidebar() { elements.sidebar.classList.remove('open'); } function openSidebar(mode) { currentSidebarMode = mode; renderSidebarContent(); elements.sidebar.classList.add('open'); }
     document.getElementById('editPhoneSave')?.addEventListener('click', () => { let newPhone = document.getElementById('editPhoneInput').value.trim().replace(/\s/g, ''); if (!newPhone) { alert('Geçerli ID girin'); return; } savePhoneNumber(newPhone); document.getElementById('editPhoneModal').style.display = 'none'; renderSidebarContent(); });
