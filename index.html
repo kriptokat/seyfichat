@@ -12,7 +12,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Temel arkaplan - her zaman degrade */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -24,7 +23,6 @@
             margin: 0;
         }
 
-        /* Ana container - varsayılan mobil tam ekran */
         .app-wrapper {
             width: 100%;
             height: 100vh;
@@ -35,7 +33,6 @@
             align-items: center;
         }
 
-        /* Chat ana kapsayıcı */
         .chat-container {
             width: 100%;
             height: 100%;
@@ -48,7 +45,6 @@
             border-radius: 0;
         }
 
-        /* Desktop görünümü: ortalanmış çerçeve */
         @media (min-width: 768px) {
             body {
                 padding: 24px;
@@ -72,7 +68,6 @@
             }
         }
 
-        /* iPhone vb küçük ekranlarda yine tam ekran */
         @media (max-width: 767px) {
             .app-wrapper {
                 height: 100vh;
@@ -136,7 +131,6 @@
             background: #22c55e;
         }
 
-        /* Görüşülen kişi kısmı - daha belirgin */
         .current-chat-header {
             background: linear-gradient(135deg, #f1f5f9 0%, #e9eef3 100%);
             padding: 14px 20px;
@@ -210,7 +204,7 @@
             margin-right: 4px;
         }
 
-        /* INPUT KISMI - gönder tuşu düzenli */
+        /* INPUT KISMI - Gönder tuşu artık taşmıyor, flex ile düzenli */
         .input-container {
             flex-shrink: 0;
             background: white;
@@ -221,9 +215,11 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            width: 100%;
         }
         #messageInput {
             flex: 1;
+            min-width: 0; /* flex taşmasını engeller */
             padding: 12px 16px;
             border: 1px solid #cbd5e1;
             border-radius: 32px;
@@ -232,6 +228,7 @@
             background: #fefefe;
         }
         #sendButton {
+            flex-shrink: 0;
             padding: 10px 20px;
             background: #4a90e2;
             color: white;
@@ -337,9 +334,6 @@
             color: #dc2626;
             border: 1px solid #fecaca;
         }
-        .mini-btn.danger:hover {
-            background: #fecaca;
-        }
         .warning-text {
             font-size: 0.6rem;
             color: #f97316;
@@ -352,78 +346,112 @@
             margin-top: 6px;
             text-align: center;
         }
+        
+        /* FLASH TARZI KİŞİ LİSTESİ - Daha modern, neon esintili, cam efekti */
         .contacts-list-sidebar {
-            margin-top: 16px;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
         .contact-item-sidebar {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 8px;
+            background: linear-gradient(115deg, #ffffff 0%, #fef9ff 100%);
+            border-radius: 24px;
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #e2e8f0;
-            transition: all 0.1s ease;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
         }
         .contact-item-sidebar.active-contact {
-            background: #e3f2fd;
-            border-color: #4a90e2;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: linear-gradient(115deg, #eef2ff 0%, #e0e7ff 100%);
+            border-left: 5px solid #4a90e2;
+            border-radius: 24px 18px 18px 24px;
+            box-shadow: 0 8px 22px rgba(74,144,226,0.2);
+            transform: scale(1.01);
         }
         .contact-info-sidebar {
             flex: 1;
         }
         .contact-name-sidebar {
-            font-weight: 700;
-            font-size: 1rem;
+            font-weight: 800;
+            font-size: 1.05rem;
             color: #0f172a;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .contact-phone-sidebar {
-            font-size: 0.6rem;
-            color: #64748b;
+            font-size: 0.65rem;
+            color: #4b5563;
             font-family: monospace;
-            margin-top: 2px;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
         }
         .contact-badge {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 8px;
-            font-weight: 500;
+            border-radius: 30px;
+            font-weight: 600;
         }
         .contact-badge.online { background: #22c55e20; color: #15803d; border: 0.5px solid #86efac; }
         .contact-badge.pending { background: #f9731620; color: #c2410c; }
         .contact-badge.unread { background: #ef444420; color: #b91c1c; }
         .contact-actions-sidebar {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            align-items: center;
         }
-        .contact-action-btn {
-            background: none;
+        /* Anahtar (düzenleme) tuşu stil - şık ve minimal */
+        .contact-action-btn.edit-key {
+            background: rgba(100, 116, 139, 0.1);
             border: none;
-            font-size: 0.7rem;
-            font-weight: 500;
+            font-size: 1.1rem;
             cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 30px;
-            transition: background 0.2s;
+            width: 36px;
+            height: 36px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            color: #475569;
+        }
+        .contact-action-btn.edit-key:hover {
             background: #e2e8f0;
+            transform: scale(1.05);
+            color: #2563eb;
         }
-        .contact-action-btn:hover {
-            background: #cbd5e1;
+        /* Bağlan butonu yok - kişiye tıklayarak bağlanma */
+        .contact-clickable {
+            cursor: pointer;
+            transition: all 0.2s;
         }
+        .contact-clickable:active {
+            transform: scale(0.98);
+        }
+        
         .add-contact-btn-sidebar {
             width: 100%;
-            background: #4a90e2;
+            background: linear-gradient(95deg, #4a90e2, #667eea);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 32px;
-            font-weight: 600;
-            margin-top: 20px;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            margin-top: 24px;
             cursor: pointer;
             font-size: 0.9rem;
+            box-shadow: 0 6px 14px rgba(74,144,226,0.3);
+            transition: all 0.2s;
+        }
+        .add-contact-btn-sidebar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74,144,226,0.4);
         }
 
         .modal-overlay {
@@ -565,6 +593,19 @@
             <div class="modal-buttons">
                 <button class="modal-cancel" id="editPhoneCancel">Vazgeç</button>
                 <button class="modal-save" id="editPhoneSave">Kaydet</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Düzenleme modalı (kişi düzenle) -->
+    <div id="editContactModal" style="display: none;" class="modal-overlay">
+        <div class="modal-content">
+            <h3>✏️ Kişi Düzenle</h3>
+            <input type="text" id="editContactNameInput" placeholder="Yeni ad">
+            <input type="tel" id="editContactPhoneInput" placeholder="Yeni telefon no">
+            <div class="modal-buttons">
+                <button class="modal-cancel" id="editContactCancelBtn">Vazgeç</button>
+                <button class="modal-save" id="editContactSaveBtn">Güncelle</button>
             </div>
         </div>
     </div>
@@ -752,14 +793,13 @@
             });
         }
 
+        // Bağlanma işlemi: kişi kartına tıklanınca çağrılır
         function connectToContact(id, phoneNumber, name) {
             if (!myPhoneNumber || myPhoneNumber === "") {
                 alert('Lütfen önce ayarlardan kendi telefon numaranızı girin.');
                 return;
             }
-            if (activeContactId === id && isConnected) {
-                return;
-            }
+            if (activeContactId === id && isConnected) return;
             if (currentConnection) disconnectCurrent();
             
             activeContactId = id;
@@ -798,9 +838,7 @@
         function disconnectCurrent() {
             if (currentConnection) {
                 let contact = contacts.find(c => c.id === activeContactId);
-                if (contact) {
-                    updateContactStatus(activeContactId, 'offline');
-                }
+                if (contact) updateContactStatus(activeContactId, 'offline');
                 currentConnection.close();
                 currentConnection = null;
                 isConnected = false;
@@ -882,14 +920,13 @@
             });
         }
 
-        // Ayarlar menüsünden tüm mesajları temizle (aktif sohbet için)
         function clearChatMessagesFromSettings() {
             if (!activeContactId) {
                 alert('Şu anda açık bir sohbet yok. Mesaj geçmişini temizlemek için bir kişi seçin.');
                 return;
             }
             const contact = contacts.find(c => c.id === activeContactId);
-            if (confirm(`${contact?.name || 'Bu kişi'} ile tüm mesaj geçmişi silinecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?`)) {
+            if (confirm(`${contact?.name || 'Bu kişi'} ile tüm mesaj geçmişi silinecek. Devam etmek istiyor musunuz?`)) {
                 messagesHistory[activeContactId] = [];
                 saveMessagesHistory();
                 renderMessagesForActiveContact();
@@ -926,10 +963,7 @@
         }
 
         function updateChatHeaderStatus() {
-            if (!activeContactId) {
-                elements.currentChatHeader.style.display = 'none';
-                return;
-            }
+            if (!activeContactId) { elements.currentChatHeader.style.display = 'none'; return; }
             elements.currentChatHeader.style.display = 'flex';
             let status = contactStatus[activeContactId] || 'offline';
             let statusClass = status === 'connected' ? 'online' : (status === 'connecting' ? 'connecting' : 'offline');
@@ -953,6 +987,49 @@
                 elements.inputContainer.style.display = 'none';
                 elements.currentChatHeader.style.display = 'none';
             }
+        }
+
+        // Kişi düzenleme modal aç
+        let editingContactId = null;
+        function showEditContactModal(contactId, currentName, currentPhone) {
+            editingContactId = contactId;
+            const modal = document.getElementById('editContactModal');
+            document.getElementById('editContactNameInput').value = currentName;
+            document.getElementById('editContactPhoneInput').value = currentPhone;
+            modal.style.display = 'flex';
+            const saveBtn = document.getElementById('editContactSaveBtn');
+            const cancelBtn = document.getElementById('editContactCancelBtn');
+            const saveHandler = () => {
+                let newName = document.getElementById('editContactNameInput').value.trim();
+                let newPhone = document.getElementById('editContactPhoneInput').value.trim().replace(/\s/g, '');
+                if (!newName || !newPhone) { alert('Ad ve telefon numarası gerekli'); return; }
+                if (newPhone === myPhoneNumber) { alert('Kendi numaranızı başkasına atayamazsınız'); return; }
+                if (contacts.some(c => c.id !== contactId && c.phoneNumber === newPhone)) { alert('Bu telefon numarası başka bir kişide kayıtlı'); return; }
+                let contactIndex = contacts.findIndex(c => c.id === contactId);
+                if (contactIndex !== -1) {
+                    contacts[contactIndex].name = newName;
+                    contacts[contactIndex].phoneNumber = newPhone;
+                    if (activeContactId === contactId) {
+                        activeContactName = newName;
+                        elements.currentChatName.innerText = newName;
+                    }
+                    saveContacts();
+                    renderSidebarContent();
+                    renderMessagesForActiveContact();
+                }
+                modal.style.display = 'none';
+                saveBtn.removeEventListener('click', saveHandler);
+                cancelBtn.removeEventListener('click', cancelHandler);
+                editingContactId = null;
+            };
+            const cancelHandler = () => {
+                modal.style.display = 'none';
+                saveBtn.removeEventListener('click', saveHandler);
+                cancelBtn.removeEventListener('click', cancelHandler);
+                editingContactId = null;
+            };
+            saveBtn.addEventListener('click', saveHandler);
+            cancelBtn.addEventListener('click', cancelHandler);
         }
 
         function renderSidebarContent() {
@@ -994,7 +1071,7 @@
                         let isOnline = status === 'connected';
                         contactsHtml += `
                             <div class="contact-item-sidebar ${isActive ? 'active-contact' : ''}" data-contact-id="${contact.id}">
-                                <div class="contact-info-sidebar">
+                                <div class="contact-info-sidebar contact-clickable" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}">
                                     <div class="contact-name-sidebar">
                                         ${escapeHtml(contact.name)}
                                         ${isOnline ? '<span class="contact-badge online">● Çevrimiçi</span>' : ''}
@@ -1004,8 +1081,7 @@
                                     <div class="contact-phone-sidebar">📞 ${escapeHtml(contact.phoneNumber)}</div>
                                 </div>
                                 <div class="contact-actions-sidebar">
-                                    <button class="contact-action-btn connect-btn" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}">🔌 Bağlan</button>
-                                    <button class="contact-action-btn delete-btn" data-id="${contact.id}">🗑</button>
+                                    <button class="contact-action-btn edit-key" data-id="${contact.id}" data-name="${escapeHtml(contact.name)}" data-phone="${contact.phoneNumber}">🔧</button>
                                 </div>
                             </div>
                         `;
@@ -1014,19 +1090,25 @@
                 contactsHtml += `<button class="add-contact-btn-sidebar" id="addContactSidebarBtn">+ Yeni Kişi Ekle</button></div>`;
                 elements.sidebarContent.innerHTML = contactsHtml;
                 
-                document.querySelectorAll('.connect-btn').forEach(btn => {
-                    btn.onclick = (e) => {
+                // Kişi kartına tıklama -> bağlanma (silme butonu değil, düzenle butonu yanında)
+                document.querySelectorAll('.contact-clickable').forEach(el => {
+                    el.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        let id = btn.dataset.id, phone = btn.dataset.phone, name = btn.dataset.name;
+                        let id = el.dataset.id;
+                        let phone = el.dataset.phone;
+                        let name = el.dataset.name;
                         connectToContact(id, phone, name);
                         closeSidebar();
-                    };
+                    });
                 });
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.onclick = (e) => {
+                // Düzenleme butonu (anahtar resmi)
+                document.querySelectorAll('.edit-key').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        deleteContactById(btn.dataset.id);
-                    };
+                        let id = btn.dataset.id;
+                        let contact = contacts.find(c => c.id === id);
+                        if (contact) showEditContactModal(id, contact.name, contact.phoneNumber);
+                    });
                 });
                 document.getElementById('addContactSidebarBtn')?.addEventListener('click', () => {
                     closeSidebar();
@@ -1092,29 +1174,6 @@
             };
             saveBtn.addEventListener('click', saveHandler);
             cancelBtn.addEventListener('click', cancelHandler);
-        }
-
-        function deleteContactById(id) {
-            if (confirm('Kişiyi silmek mesaj geçmişini ve bekleyen mesajları siler.')) {
-                if (activeContactId === id) {
-                    if (currentConnection) currentConnection.close();
-                    activeContactId = null;
-                    activeContactName = "";
-                    elements.currentChatName.innerText = "Seçili kişi yok";
-                    setConnectedState(false);
-                    renderMessagesForActiveContact();
-                    showChatInterface(false);
-                }
-                contacts = contacts.filter(c => c.id !== id);
-                delete contactStatus[id];
-                delete pendingMessages[id];
-                delete messagesHistory[id];
-                delete unreadCounts[id];
-                saveContacts();
-                saveMessagesHistory();
-                renderSidebarContent();
-                updateChatHeaderStatus();
-            }
         }
 
         function saveContacts() { localStorage.setItem('seyficet_contacts_v2', JSON.stringify(contacts)); }
