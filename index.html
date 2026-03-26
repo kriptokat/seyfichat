@@ -12,14 +12,19 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 24px;
+            overflow: hidden;
         }
 
         .chat-container {
@@ -149,6 +154,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            min-height: 0;
         }
 
         .message { display: flex; flex-direction: column; max-width: 85%; }
@@ -179,12 +185,9 @@
             background: white;
             border-top: 1px solid #edf2f7;
             padding: 12px 16px;
-            /* Sabit alt kısım için güvence */
-            position: relative;
-            bottom: 0;
             width: 100%;
         }
-        .message-input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .message-input-row { display: flex; gap: 10px; }
         #messageInput {
             flex: 1;
             padding: 12px 18px;
@@ -439,14 +442,6 @@
                 max-height: none; 
                 border-radius: 0;
             }
-            /* Mobilde input alanının her zaman görünür olması için ekstra güvence */
-            .input-container {
-                flex-shrink: 0;
-                background: white;
-                border-top: 1px solid #edf2f7;
-                padding: 12px 16px;
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -481,10 +476,10 @@
             <span id="typingIndicator" style="display:none;" class="typing-indicator">✍️ Yazıyor...</span>
         </div>
         
-        <!-- Mesaj alanı -->
+        <!-- Mesaj alanı (flex ile büyüyen ve kaydırılabilen alan) -->
         <div class="messages-area" id="messagesArea"></div>
         
-        <!-- Mesaj giriş alanı (sadece yazı) - Her zaman ekranın alt kısmında sabit kalacak şekilde -->
+        <!-- Mesaj giriş alanı - Her zaman görünür ve altta sabit -->
         <div class="input-container">
             <div class="message-input-row">
                 <input type="text" id="messageInput" placeholder="Mesaj yazın..." disabled>
