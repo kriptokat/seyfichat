@@ -13,6 +13,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Tam ekran sabitleme */
         html, body {
             width: 100%;
             height: 100%;
@@ -46,13 +47,14 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
         }
 
-        @media (min-width: 768px) {
-            .chat-container {
-                max-width: 550px;
-                max-height: 75vh;
-                min-height: 450px;
-            }
-        }
+/* Bilgisayar ekranları için (768px ve üzeri) */
+@media (min-width: 768px) {
+    .chat-container {
+        max-width: 550px;
+        max-height: 75vh;
+        min-height: 450px;
+    }
+}
 
         .app-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -237,6 +239,7 @@
         }
         #sendButton:disabled { opacity: 0.5; cursor: not-allowed; }
 
+        /* AYARLAR MODALI */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -257,7 +260,6 @@
             border-radius: 28px;
             padding: 20px;
             box-shadow: 0 25px 40px -12px rgba(0,0,0,0.3);
-            position: relative;
         }
         .modal-content h3 { margin-bottom: 12px; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .modal-content p { font-size: 0.7rem; margin-bottom: 12px; }
@@ -274,6 +276,8 @@
         .modal-cancel { background: #e2e8f0; color: #334155; flex: 1; border: none; border-radius: 28px; font-weight: 600; cursor: pointer; }
         .modal-danger-btn { background: #ef4444; color: white; flex: 1; padding: 8px; border-radius: 28px; border: none; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .divider-modal { height: 1px; background: #eef2f6; margin: 16px 0 12px; }
+        
+        /* Modal içine kapatma butonu eklendi */
         .modal-close-icon {
             position: absolute;
             top: 16px;
@@ -295,7 +299,11 @@
             background: #e2e8f0;
             transform: scale(0.96);
         }
-
+        .modal-content {
+            position: relative;
+        }
+        
+        /* KİŞİLERİM AÇILIR KUTU */
         .contacts-dropdown-menu {
             background: white;
             border-radius: 24px;
@@ -454,17 +462,30 @@
 </head>
 <body>
     <div class="chat-container" id="chatContainer">
+        <!-- Üst Alan: Logo + Ayarlar ve Kişilerim tuşları -->
         <div class="app-header">
             <div class="logo-area">
-                <div class="logo-icon"><img src="https://cdn-icons-png.flaticon.com/512/724/724689.png" width="34" height="34"></div>
-                <div class="header-text"><h2>SEYFİÇET</h2></div>
+            <div class="logo-icon">
+    <img src="https://cdn-icons-png.flaticon.com/512/724/724689.png" width="34" height="34">
+</div>
+
+
+                <div class="header-text">
+                    <h2>SEYFİÇET</h2>
+                </div>
             </div>
             <div class="header-buttons">
                 <button class="header-icon-btn" id="settingsBtn">⚙️ Ayarlar</button>
                 <button class="header-icon-btn" id="contactsMenuBtn">📒 Kişilerim</button>
             </div>
         </div>
-        <div class="chat-header" id="statusBar">💬 SEYFİÇET'e hoş geldiniz</div>
+        
+        <!-- Durum çubuğu (bağlantı bildirimleri artık sadece kritik hatalar için) -->
+        <div class="chat-header" id="statusBar">
+            💬 SEYFİÇET'e hoş geldiniz
+        </div>
+        
+        <!-- Aktif sohbet bilgisi + bağlantı durumu LED'i (sadece yeşil nokta, yazı yok) -->
         <div class="current-chat-info">
             <div class="chat-name-with-status">
                 <span>💬</span>
@@ -474,7 +495,11 @@
             </div>
             <span id="typingIndicator" style="display:none;" class="typing-indicator">✍️ Yazıyor...</span>
         </div>
+        
+        <!-- Mesaj alanı -->
         <div class="messages-area" id="messagesArea"></div>
+        
+        <!-- Mesaj giriş alanı -->
         <div class="input-container">
             <div class="message-input-row">
                 <input type="text" id="messageInput" placeholder="Mesaj yazın..." disabled>
@@ -483,6 +508,7 @@
         </div>
     </div>
 
+    <!-- AYARLAR MODALI (KAPATMA BUTONU EKLENDİ) -->
     <div id="settingsModal" style="display: none;" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-icon" id="settingsCloseModalBtn">✕</button>
@@ -499,6 +525,7 @@
         </div>
     </div>
 
+    <!-- KİŞİLERİM AÇILIR KUTU -->
     <div id="contactsDropdown" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(3px);">
         <div style="width: 90%; max-width: 380px; margin: auto;">
             <div class="contacts-dropdown-menu">
@@ -506,12 +533,17 @@
                     <h4>📒 Kişilerim</h4>
                     <button class="close-dropdown-btn" id="closeContactsDropdownBtn">✕</button>
                 </div>
-                <div class="contacts-list-scroll" id="contactsDropdownList"></div>
-                <div class="add-contact-quick" id="addContactQuickBtn">➕ Yeni Kişi Ekle</div>
+                <div class="contacts-list-scroll" id="contactsDropdownList">
+                    <!-- Kişiler buraya dinamik olarak eklenecek -->
+                </div>
+                <div class="add-contact-quick" id="addContactQuickBtn">
+                    ➕ Yeni Kişi Ekle
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- YENİ KİŞİ EKLEME MODALI -->
     <div id="addContactModal" style="display: none;" class="modal-overlay">
         <div class="modal-content">
             <h3>➕ Yeni Kişi Ekle</h3>
@@ -526,33 +558,13 @@
 
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <script>
-        // ------------------ UYGULAMA ------------------
+        // ---------- UYGULAMA ----------
         let myPhoneNumber = null;
         let peer, currentConnection, isConnected = false;
         let activeContactId = null, activeContactName = "";
         let contacts = [], messagesHistory = {}, pendingMessages = {}, contactStatus = {}, unreadCounts = {};
         
-        // Yeniden bağlanma
-        let reconnectTimer = null;
-        let reconnectAttempts = 0;
-        const MAX_RECONNECT_ATTEMPTS = 8;
-        const RECONNECT_INTERVAL_MS = 4000;
-        
-        // Heartbeat
-        let heartbeatInterval = null;
-        let lastPongTime = 0;
-        const HEARTBEAT_INTERVAL_MS = 15000;
-        const HEARTBEAT_TIMEOUT_MS = 8000;
-        
-        // Sağlık kontrolü
-        let healthCheckInterval = null;
-        
-        // Yazma bildirimi
-        let typingTimeout = null;
-        let isTypingCurrently = false;
-        let stopTypingTimeout = null;
-        
-        // DOM
+        // DOM Elemanları
         const dom = {
             statusBar: document.getElementById('statusBar'),
             activeContactNameSpan: document.getElementById('activeContactName'),
@@ -585,77 +597,109 @@
         function showNotification(title, body) { if(Notification.permission === 'granted') new Notification(title, {body}); else if(Notification.permission !== 'denied') Notification.requestPermission(); }
         
         function updateOnlineLed() {
-            if(!activeContactId) { dom.onlineLed.style.display = 'none'; dom.activeBadge.style.display = 'none'; return; }
+            if(!activeContactId) {
+                dom.onlineLed.style.display = 'none';
+                dom.activeBadge.style.display = 'none';
+                return;
+            }
             const status = contactStatus[activeContactId] || 'offline';
             dom.onlineLed.style.display = 'inline-block';
             dom.onlineLed.className = 'online-status-led';
-            if(status === 'connected') { dom.onlineLed.classList.add('online'); dom.activeBadge.style.display = 'none'; }
-            else if(status === 'connecting' || status === 'pending') { dom.onlineLed.classList.add('connecting'); dom.activeBadge.style.display = 'none'; }
-            else { dom.onlineLed.classList.add('offline'); dom.activeBadge.style.display = 'none'; }
+            if(status === 'connected') {
+                dom.onlineLed.classList.add('online');
+                dom.activeBadge.style.display = 'none';
+            } else if(status === 'connecting' || status === 'pending') {
+                dom.onlineLed.classList.add('connecting');
+                dom.activeBadge.style.display = 'none';
+            } else {
+                dom.onlineLed.classList.add('offline');
+                dom.activeBadge.style.display = 'none';
+            }
         }
         
-        function savePhoneNumber(phone) { let cleaned = phone.replace(/\s/g, ''); if(!cleaned) return false; localStorage.setItem('p2p_my_phone', cleaned); myPhoneNumber = cleaned; return true; }
+        function savePhoneNumber(phone) {
+            let cleaned = phone.replace(/\s/g, '');
+            if(!cleaned) return false;
+            localStorage.setItem('p2p_my_phone', cleaned);
+            myPhoneNumber = cleaned;
+            return true;
+        }
         function getStoredPhone() { return localStorage.getItem('p2p_my_phone'); }
-        
-        const iceConfig = {
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun2.l.google.com:19302' },
-                { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
-                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
-                { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
-            ]
-        };
         
         function initPeerWithPhone(phone) {
             if(peer && !peer.destroyed) peer.destroy();
-            peer = new Peer(phone, { debug: 0, config: iceConfig });
+            peer = new Peer(phone, { debug: 0, config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] } });
             peer.on('open', () => {
                 dom.statusBar.innerHTML = `📱 ${myPhoneNumber} ile hazır | Kişi seçip sohbete başlayın`;
-                if(activeContactId && !isConnected) attemptReconnect();
             });
             peer.on('error', (err) => {
-                if(err.type === 'unavailable-id') { dom.statusBar.innerHTML = `⚠️ Bu numara kullanımda veya geçersiz. Ayarlardan değiştirin.`; showSettingsModal(); }
-                else dom.statusBar.innerHTML = `⚠️ Bağlantı sorunu: ${err.type}`;
+                if(err.type === 'unavailable-id') {
+                    dom.statusBar.innerHTML = `⚠️ Bu numara kullanımda veya geçersiz. Ayarlardan değiştirin.`;
+                    showSettingsModal();
+                } else {
+                    dom.statusBar.innerHTML = `⚠️ Bağlantı sorunu: ${err.type}`;
+                }
             });
             peer.on('connection', handleIncoming);
         }
         
-        function showSettingsModal() { dom.settingsPhoneInput.value = myPhoneNumber || ''; dom.settingsModal.style.display = 'flex'; }
+        function showSettingsModal() {
+            dom.settingsPhoneInput.value = myPhoneNumber || '';
+            dom.settingsModal.style.display = 'flex';
+        }
         
         function changePhoneNumber(newPhone) {
             if(!newPhone || newPhone === myPhoneNumber) return false;
-            if(currentConnection) try { currentConnection.close(); } catch(e) {}
-            stopHeartbeat(); stopHealthCheck(); clearReconnectTimer(); clearTypingState();
+            if(currentConnection) { try { currentConnection.close(); } catch(e) {} }
             currentConnection = null; isConnected = false; activeContactId = null; activeContactName = "";
             if(peer && !peer.destroyed) peer.destroy();
             savePhoneNumber(newPhone);
             contacts = []; messagesHistory = {}; pendingMessages = {}; contactStatus = {}; unreadCounts = {};
             saveContacts(); saveMessages();
-            updateActiveContactDisplay(); renderMessages(); updateOnlineLed();
+            updateActiveContactDisplay();
+            renderMessages();
+            updateOnlineLed();
             initPeerWithPhone(myPhoneNumber);
             return true;
         }
         
+        // Aktif kişi için sohbet geçmişini temizle
         function clearActiveChatHistory() {
-            if(!activeContactId) { alert('Aktif bir kişi seçili değil.'); return; }
+            if(!activeContactId) {
+                alert('Aktif bir kişi seçili değil.');
+                return;
+            }
             if(messagesHistory[activeContactId]) {
                 delete messagesHistory[activeContactId];
-                saveMessages(); renderMessages();
+                saveMessages();
+                renderMessages();
                 addSystemMessage('💬 Sohbet geçmişi temizlendi.');
                 dom.statusBar.innerHTML = `🗑️ ${activeContactName} ile sohbet temizlendi`;
-                setTimeout(() => { if(dom.statusBar) dom.statusBar.innerHTML = `📱 ${myPhoneNumber} ile hazır | Kişi seçip sohbete başlayın`; }, 2000);
-            } else alert('Bu kişi ile henüz mesaj geçmişi yok.');
+                setTimeout(() => {
+                    if(dom.statusBar) dom.statusBar.innerHTML = `📱 ${myPhoneNumber} ile hazır | Kişi seçip sohbete başlayın`;
+                }, 2000);
+            } else {
+                alert('Bu kişi ile henüz mesaj geçmişi yok.');
+            }
         }
         
         function sendTextMessage(contactId, text) {
             if(!contactId || !text) return false;
             const isNow = (activeContactId === contactId && isConnected && currentConnection);
             if(isNow) {
-                try { currentConnection.send({ type: 'text', text: text }); addToHistory(contactId, text, 'Ben', true, 'text'); return true; }
-                catch(e) { queueMsg(contactId, {type:'text', content:text}); return false; }
-            } else { queueMsg(contactId, {type:'text', content:text}); return false; }
+                try {
+                    let msg = { type: 'text', text: text };
+                    currentConnection.send(msg);
+                    addToHistory(contactId, text, 'Ben', true, 'text');
+                    return true;
+                } catch(e) { 
+                    queueMsg(contactId, {type:'text', content:text});
+                    return false; 
+                }
+            } else { 
+                queueMsg(contactId, {type:'text', content:text});
+                return false; 
+            }
         }
         
         function queueMsg(contactId, msg) {
@@ -669,15 +713,19 @@
             if(!pendingMessages[contactId]?.length || !currentConnection || !isConnected || activeContactId !== contactId) return;
             let pending = [...pendingMessages[contactId]];
             pendingMessages[contactId]=[];
-            let successCount = 0;
             for(let msg of pending) {
                 if(msg.type === 'text') {
-                    try { currentConnection.send({ type: 'text', text: msg.content }); addToHistory(contactId, msg.content, 'Ben', true, 'text'); successCount++; }
-                    catch(e){ if(!pendingMessages[contactId]) pendingMessages[contactId]=[]; pendingMessages[contactId].unshift(msg); }
+                    try {
+                        currentConnection.send({ type: 'text', text: msg.content });
+                        addToHistory(contactId, msg.content, 'Ben', true, 'text');
+                    } catch(e){ 
+                        if(!pendingMessages[contactId]) pendingMessages[contactId]=[];
+                        pendingMessages[contactId].unshift(msg); 
+                    }
                 }
             }
-            if(successCount) addSystemMessage(`${successCount} bekleyen mesaj gönderildi.`);
-            if(pendingMessages[contactId]?.length === 0) updateContactStatus(contactId,'connected');
+            addSystemMessage(`${pending.length} bekleyen mesaj gönderildi.`);
+            updateContactStatus(contactId,'connected');
             updateOnlineLed();
         }
         
@@ -686,154 +734,46 @@
             messagesHistory[contactId].push({content, sender, isSent, msgType, isPending, read: isSent, timestamp: Date.now()});
             saveMessages();
             if(activeContactId===contactId) renderMessages();
-            if(!isSent && activeContactId!==contactId) { unreadCounts[contactId]=(unreadCounts[contactId]||0)+1; if(Notification.permission==='granted') showNotification(sender, content.length>30?content.substring(0,30)+'...':content); }
-        }
-        
-        function updateContactStatus(id, status) { contactStatus[id]=status; if(activeContactId === id) updateOnlineLed(); }
-        
-        // Heartbeat
-        function startHeartbeat(conn) {
-            stopHeartbeat(); lastPongTime = Date.now();
-            heartbeatInterval = setInterval(() => {
-                if(!conn || !isConnected || !activeContactId) return;
-                try { conn.send({ type: 'ping', time: Date.now() }); } catch(e) { console.warn("Ping send error", e); handleConnectionLost(); }
-                if(Date.now() - lastPongTime > HEARTBEAT_TIMEOUT_MS) { console.warn("Heartbeat timeout"); handleConnectionLost(); }
-            }, HEARTBEAT_INTERVAL_MS);
-        }
-        function stopHeartbeat() { if(heartbeatInterval) clearInterval(heartbeatInterval); heartbeatInterval = null; }
-        
-        // Sağlık kontrolü: data channel ve peerConnection durumunu izle
-        function startHealthCheck() {
-            stopHealthCheck();
-            healthCheckInterval = setInterval(() => {
-                if(!activeContactId) return;
-                if(!currentConnection) {
-                    if(isConnected) { isConnected = false; setConnectedState(false); }
-                    if(contactStatus[activeContactId] !== 'offline') { updateContactStatus(activeContactId, 'offline'); attemptReconnect(); }
-                    return;
-                }
-                // PeerJS bağlantısının altındaki peerConnection durumuna bak
-                const pc = currentConnection.peerConnection;
-                if(pc) {
-                    const state = pc.iceConnectionState;
-                    console.log(`ICE state: ${state}`);
-                    if(state === 'failed' || state === 'disconnected' || state === 'closed') {
-                        handleConnectionLost();
-                    } else if(state === 'connected' && !isConnected) {
-                        // Yeniden bağlantı başarılı olmuş olabilir, durumu düzelt
-                        if(activeContactId && currentConnection) {
-                            isConnected = true;
-                            setConnectedState(true);
-                            updateContactStatus(activeContactId, 'connected');
-                            flushPending(activeContactId);
-                            startHeartbeat(currentConnection);
-                        }
-                    }
-                }
-                // Data channel kontrolü
-                try {
-                    const dc = currentConnection.dataChannel;
-                    if(dc && (dc.readyState === 'closed' || dc.readyState === 'closing')) {
-                        console.warn("Data channel closed");
-                        handleConnectionLost();
-                    }
-                } catch(e) {}
-            }, 5000);
-        }
-        function stopHealthCheck() { if(healthCheckInterval) clearInterval(healthCheckInterval); healthCheckInterval = null; }
-        
-        function handleConnectionLost() {
-            if(!activeContactId) return;
-            if(isConnected === false && currentConnection === null) return; // zaten kopuk
-            console.log("Connection lost, cleaning up");
-            if(currentConnection) { try { currentConnection.close(); } catch(e) {} currentConnection = null; }
-            isConnected = false;
-            setConnectedState(false);
-            updateContactStatus(activeContactId, 'offline');
-            updateOnlineLed();
-            stopHeartbeat();
-            attemptReconnect();
-        }
-        
-        function attemptReconnect() {
-            if(!activeContactId) return;
-            const contact = contacts.find(c => c.id === activeContactId);
-            if(!contact) return;
-            if(reconnectTimer) clearTimeout(reconnectTimer);
-            if(reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
-                dom.statusBar.innerHTML = `❌ ${contact.name} bağlantısı sağlanamadı. Manuel olarak kişiyi seçin.`;
-                reconnectAttempts = 0; return;
+            if(!isSent && activeContactId!==contactId) {
+                unreadCounts[contactId]=(unreadCounts[contactId]||0)+1;
+                if(Notification.permission==='granted') showNotification(sender, content.length>30?content.substring(0,30)+'...':content);
             }
-            reconnectAttempts++;
-            dom.statusBar.innerHTML = `🔄 ${contact.name} ile yeniden bağlanma denemesi ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}...`;
-            updateContactStatus(activeContactId, 'connecting'); updateOnlineLed();
-            let newConn = peer.connect(contact.phoneNumber);
-            if(!newConn) { reconnectTimer = setTimeout(attemptReconnect, RECONNECT_INTERVAL_MS); return; }
-            currentConnection = newConn; setupConnection(currentConnection, activeContactId, contact.name);
-            setTimeout(() => {
-                if(currentConnection === newConn && !isConnected) {
-                    updateContactStatus(activeContactId, 'offline'); setConnectedState(false); currentConnection = null;
-                    dom.statusBar.innerHTML = `⏰ ${contact.name} bağlantı zaman aşımı, tekrar deneniyor...`;
-                    reconnectTimer = setTimeout(attemptReconnect, RECONNECT_INTERVAL_MS);
-                }
-            }, 10000);
         }
         
-        function clearReconnectTimer() { if(reconnectTimer) clearTimeout(reconnectTimer); reconnectTimer = null; reconnectAttempts = 0; }
-        
-        function sendTypingStart() { if(!currentConnection || !isConnected) return; try { currentConnection.send({ type: 'typing' }); } catch(e) {} }
-        function sendTypingStop() { if(!currentConnection || !isConnected) return; try { currentConnection.send({ type: 'stopTyping' }); } catch(e) {} }
-        
-        function onTypingInput() {
-            if(!activeContactId || !isConnected) return;
-            if(!isTypingCurrently) { isTypingCurrently = true; sendTypingStart(); }
-            if(typingTimeout) clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => { if(isTypingCurrently) { isTypingCurrently = false; sendTypingStop(); } }, 2000);
-            if(stopTypingTimeout) clearTimeout(stopTypingTimeout);
-            stopTypingTimeout = setTimeout(() => { if(isTypingCurrently) { isTypingCurrently = false; sendTypingStop(); } }, 2000);
-        }
-        
-        function clearTypingState() {
-            if(typingTimeout) clearTimeout(typingTimeout);
-            if(stopTypingTimeout) clearTimeout(stopTypingTimeout);
-            isTypingCurrently = false;
-            sendTypingStop();
+        function updateContactStatus(id, status) { 
+            contactStatus[id]=status;
+            if(activeContactId === id) updateOnlineLed();
         }
         
         function setupConnection(conn, contactId, contactName) {
             conn.on('open', () => {
-                if(activeContactId===contactId && currentConnection===conn) {
-                    isConnected=true; setConnectedState(true); updateContactStatus(contactId,'connected');
+                if(activeContactId===contactId) {
+                    isConnected=true; 
+                    setConnectedState(true);
+                    updateContactStatus(contactId,'connected');
                     dom.statusBar.innerHTML = `✅ ${contactName} ile bağlantı aktif`;
-                    clearReconnectTimer(); flushPending(contactId); updateOnlineLed(); startHeartbeat(conn); startHealthCheck();
+                    flushPending(contactId);
+                    updateOnlineLed();
                 }
             });
             let typingTimer;
             conn.on('data', (data) => {
-                if(data.type === 'pong') { lastPongTime = Date.now(); return; }
-                if(data.type === 'ping') { try { conn.send({ type: 'pong', time: Date.now() }); } catch(e) {} return; }
-                if(activeContactId===contactId && currentConnection===conn && data.type === 'text') addToHistory(contactId, data.text, contactName, false, 'text');
+                if(activeContactId===contactId && currentConnection===conn && data.type === 'text') {
+                    addToHistory(contactId, data.text, contactName, false, 'text');
+                }
                 if(data.type === 'typing') {
                     dom.typingIndicator.style.display='inline-block';
                     clearTimeout(typingTimer);
-                    typingTimer = setTimeout(() => dom.typingIndicator.style.display='none', 2000);
+                    typingTimer=setTimeout(()=>dom.typingIndicator.style.display='none',2000);
                 }
-                if(data.type === 'stopTyping') { dom.typingIndicator.style.display='none'; clearTimeout(typingTimer); }
             });
             conn.on('close', () => {
                 if(activeContactId===contactId && currentConnection===conn) {
-                    console.log("Connection closed by remote");
-                    updateContactStatus(contactId,'offline'); setConnectedState(false); currentConnection=null; isConnected=false;
-                    dom.statusBar.innerHTML = `⚠️ ${contactName} bağlantısı kesildi, yeniden bağlanılıyor...`;
-                    updateOnlineLed(); stopHeartbeat(); attemptReconnect();
-                }
-            });
-            conn.on('error', (err) => {
-                console.error("Connection error", err);
-                if(activeContactId===contactId && currentConnection===conn) {
-                    updateContactStatus(contactId,'offline'); setConnectedState(false); currentConnection=null; isConnected=false;
-                    dom.statusBar.innerHTML = `⚠️ ${contactName} bağlantı hatası, yeniden deneniyor...`;
-                    stopHeartbeat(); attemptReconnect();
+                    updateContactStatus(contactId,'offline');
+                    setConnectedState(false);
+                    currentConnection=null; isConnected=false;
+                    dom.statusBar.innerHTML = `⚠️ ${contactName} bağlantı kapandı`;
+                    updateOnlineLed();
                 }
             });
         }
@@ -844,30 +784,43 @@
             activeContactId = contactId; activeContactName = name;
             dom.activeContactNameSpan.innerText = name;
             renderMessages();
-            updateContactStatus(contactId, 'connecting'); updateOnlineLed();
+            updateContactStatus(contactId, 'connecting');
+            updateOnlineLed();
             dom.statusBar.innerHTML = `🔄 ${name} bağlanıyor...`;
-            clearReconnectTimer(); reconnectAttempts = 0;
             let newConn = peer.connect(phone);
             if(!newConn) { updateContactStatus(contactId, 'offline'); dom.statusBar.innerHTML = `❌ ${name} bağlanılamadı`; updateOnlineLed(); return; }
-            currentConnection = newConn; setupConnection(currentConnection, contactId, name);
+            currentConnection = newConn;
+            setupConnection(currentConnection, contactId, name);
             setTimeout(() => {
                 if(currentConnection === newConn && !isConnected) {
-                    updateContactStatus(contactId, 'offline'); setConnectedState(false); currentConnection=null;
+                    updateContactStatus(contactId, 'offline');
+                    setConnectedState(false);
+                    currentConnection=null;
                     dom.statusBar.innerHTML = `⏰ ${name} bağlantı zaman aşımı`;
-                    updateOnlineLed(); attemptReconnect();
+                    updateOnlineLed();
                 }
             }, 10000);
         }
         
         function disconnectCurrent() {
-            if(currentConnection) { let contact = contacts.find(c=>c.id===activeContactId); if(contact) updateContactStatus(activeContactId,'offline'); currentConnection.close(); currentConnection=null; isConnected=false; setConnectedState(false); dom.statusBar.innerHTML = `❌ Bağlantı kesildi`; updateOnlineLed(); stopHeartbeat(); stopHealthCheck(); clearReconnectTimer(); clearTypingState(); }
+            if(currentConnection) {
+                let contact = contacts.find(c=>c.id===activeContactId);
+                if(contact) {
+                    updateContactStatus(activeContactId,'offline');
+                }
+                currentConnection.close();
+                currentConnection=null; isConnected=false;
+                setConnectedState(false);
+                dom.statusBar.innerHTML = `❌ Bağlantı kesildi`;
+                updateOnlineLed();
+            }
         }
         
         function setConnectedState(connected) {
             isConnected=connected;
             dom.messageInput.disabled=!connected;
             dom.sendButton.disabled=!connected;
-            if(!connected && activeContactId) dom.messageInput.placeholder="Bağlantı yok, yeniden bağlanılıyor...";
+            if(!connected && activeContactId) dom.messageInput.placeholder="Bağlantı yok, yeniden seçin";
             else if(connected) dom.messageInput.placeholder="Mesaj yazın...";
             updateOnlineLed();
         }
@@ -876,32 +829,46 @@
             if(!activeContactId) { addSystemMessage('Önce bir kişi seçin.'); return; }
             let text=dom.messageInput.value.trim();
             if(!text) return;
-            if(isTypingCurrently) { isTypingCurrently = false; sendTypingStop(); }
-            if(typingTimeout) clearTimeout(typingTimeout);
-            if(stopTypingTimeout) clearTimeout(stopTypingTimeout);
             sendTextMessage(activeContactId, text);
             dom.messageInput.value='';
         }
         
+        // Mesajları render et - Alınan mesajlarda isim gösterme
         function renderMessages() {
             if(!dom.messagesArea) return;
             dom.messagesArea.innerHTML = '';
-            if(!activeContactId) { dom.messagesArea.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">👈 Kişilerimden birini seçerek sohbet başlatın</div>'; return; }
+            if(!activeContactId) {
+                dom.messagesArea.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">👈 Kişilerimden birini seçerek sohbet başlatın</div>';
+                return;
+            }
             let history = messagesHistory[activeContactId] || [];
             history.forEach(msg => {
-                let div = document.createElement('div'); div.className = `message ${msg.isSent ? 'sent' : 'received'}`;
+                let div = document.createElement('div'); 
+                div.className = `message ${msg.isSent ? 'sent' : 'received'}`;
                 let timeStr = new Date(msg.timestamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+                // Alınan mesajlarda isim gösterme (sadece mesaj içeriği)
                 let contentHtml = `<div class="message-content">${escapeHtml(msg.content)}</div>`;
                 let readHtml = msg.isSent ? `<div class="read-status ${msg.read ? 'read' : ''}">${msg.read ? '✓✓ Okundu' : '✓ Gönderildi'}</div>` : '';
                 div.innerHTML = contentHtml + `<div style="font-size:0.55rem; color:#94a3b8;">${timeStr}</div>` + readHtml;
                 dom.messagesArea.appendChild(div);
             });
+            // Her mesaj render edildiğinde en alta kaydır - aşağıdan yukarıya doğru akış için
             dom.messagesArea.scrollTop = dom.messagesArea.scrollHeight;
             if(unreadCounts[activeContactId]) delete unreadCounts[activeContactId];
         }
         
-        function addSystemMessage(text) { if(!activeContactId) return; let div=document.createElement('div'); div.className='message received'; div.style.alignSelf='center'; div.innerHTML=`<div class="message-content system-msg">📡 ${escapeHtml(text)}</div>`; dom.messagesArea.appendChild(div); dom.messagesArea.scrollTop=dom.messagesArea.scrollHeight; }
-        function updateActiveContactDisplay() { dom.activeContactNameSpan.innerText = activeContactName || "Seçili kişi yok"; updateOnlineLed(); }
+        function addSystemMessage(text) {
+            if(!activeContactId) return;
+            let div=document.createElement('div'); div.className='message received'; div.style.alignSelf='center';
+            div.innerHTML=`<div class="message-content system-msg">📡 ${escapeHtml(text)}</div>`;
+            dom.messagesArea.appendChild(div);
+            dom.messagesArea.scrollTop=dom.messagesArea.scrollHeight;
+        }
+        
+        function updateActiveContactDisplay() {
+            dom.activeContactNameSpan.innerText = activeContactName || "Seçili kişi yok";
+            updateOnlineLed();
+        }
         
         function handleIncoming(incoming) {
             let contact=contacts.find(c=>c.phoneNumber===incoming.peer);
@@ -918,7 +885,6 @@
             flushPending(contact.id);
             dom.statusBar.innerHTML = `✅ ${contact.name} ile bağlantı kuruldu`;
             updateOnlineLed();
-            clearReconnectTimer(); reconnectAttempts = 0;
         }
         
         function saveContacts() { localStorage.setItem('p2p_contacts_v3', JSON.stringify(contacts)); }
@@ -928,7 +894,10 @@
         
         function renderContactsDropdown() {
             if(!dom.contactsDropdownList) return;
-            if(contacts.length === 0) { dom.contactsDropdownList.innerHTML = '<div style="padding: 30px; text-align:center; color:#94a3b8;">📭 Henüz kişi eklenmemiş<br>➕ Yeni Kişi Ekle</div>'; return; }
+            if(contacts.length === 0) {
+                dom.contactsDropdownList.innerHTML = '<div style="padding: 30px; text-align:center; color:#94a3b8;">📭 Henüz kişi eklenmemiş<br>➕ Yeni Kişi Ekle</div>';
+                return;
+            }
             let html = '';
             contacts.forEach((contact, index) => {
                 let status = contactStatus[contact.id] || 'offline';
@@ -936,32 +905,53 @@
                 let isActive = activeContactId === contact.id;
                 let pendingCount = pendingMessages[contact.id]?.length || 0;
                 let unreadCount = unreadCounts[contact.id] || 0;
-                html += `<div class="dropdown-contact-item ${isActive ? 'active' : ''}" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}">
-                            <div style="display: flex; align-items: center; flex: 1;">
-                                <div class="contact-number-badge">${index + 1}</div>
-                                <div class="dropdown-contact-info">
-                                    <div class="dropdown-contact-name">${escapeHtml(contact.name)}${status === 'connected' ? '<span class="contact-badge-sm" style="background:#22c55e20; color:#166534;">🟢 Çevrimiçi</span>' : ''}${pendingCount ? `<span class="pending-badge-sm">📬 ${pendingCount}</span>` : ''}${unreadCount ? `<span class="unread-badge-sm">🔔 ${unreadCount}</span>` : ''}</div>
-                                    <div class="dropdown-contact-phone">📞 ${escapeHtml(contact.phoneNumber)}</div>
+                html += `
+                    <div class="dropdown-contact-item ${isActive ? 'active' : ''}" data-id="${contact.id}" data-phone="${contact.phoneNumber}" data-name="${escapeHtml(contact.name)}">
+                        <div style="display: flex; align-items: center; flex: 1;">
+                            <div class="contact-number-badge">${index + 1}</div>
+                            <div class="dropdown-contact-info">
+                                <div class="dropdown-contact-name">
+                                    ${escapeHtml(contact.name)}
+                                    ${status === 'connected' ? '<span class="contact-badge-sm" style="background:#22c55e20; color:#166534;">🟢 Çevrimiçi</span>' : ''}
+                                    ${pendingCount ? `<span class="pending-badge-sm">📬 ${pendingCount}</span>` : ''}
+                                    ${unreadCount ? `<span class="unread-badge-sm">🔔 ${unreadCount}</span>` : ''}
                                 </div>
+                                <div class="dropdown-contact-phone">📞 ${escapeHtml(contact.phoneNumber)}</div>
                             </div>
-                            <div class="dropdown-contact-status"><div class="status-dot ${statusClass}"></div></div>
-                        </div>`;
+                        </div>
+                        <div class="dropdown-contact-status">
+                            <div class="status-dot ${statusClass}"></div>
+                        </div>
+                    </div>
+                `;
             });
             dom.contactsDropdownList.innerHTML = html;
             document.querySelectorAll('#contactsDropdownList .dropdown-contact-item').forEach(item => {
-                item.addEventListener('click', () => { let id = item.dataset.id, phone = item.dataset.phone, name = item.dataset.name; selectAndConnect(id, phone, name); dom.contactsDropdown.style.display = 'none'; });
+                item.addEventListener('click', () => {
+                    let id = item.dataset.id, phone = item.dataset.phone, name = item.dataset.name;
+                    selectAndConnect(id, phone, name);
+                    dom.contactsDropdown.style.display = 'none';
+                });
             });
         }
         
-        function openAddContactModal() { dom.newContactName.value = ''; dom.newContactPhone.value = ''; dom.addContactModal.style.display = 'flex'; }
+        function openAddContactModal() {
+            dom.newContactName.value = '';
+            dom.newContactPhone.value = '';
+            dom.addContactModal.style.display = 'flex';
+        }
+        
         function addNewContact() {
-            let name = dom.newContactName.value.trim(); let phone = dom.newContactPhone.value.trim().replace(/\s/g, '');
+            let name = dom.newContactName.value.trim();
+            let phone = dom.newContactPhone.value.trim().replace(/\s/g, '');
             if(!name || !phone) { alert('Lütfen ad ve telefon numarası girin'); return; }
             if(contacts.some(c => c.phoneNumber === phone)) { alert('Bu telefon numarası zaten listede'); return; }
             let newId = Date.now() + '_' + Math.random().toString(36);
             contacts.push({ id: newId, name, phoneNumber: phone });
-            contactStatus[newId] = 'offline'; pendingMessages[newId] = [];
-            saveContacts(); dom.addContactModal.style.display = 'none';
+            contactStatus[newId] = 'offline';
+            pendingMessages[newId] = [];
+            saveContacts();
+            dom.addContactModal.style.display = 'none';
             if(dom.contactsDropdown.style.display === 'flex') renderContactsDropdown();
         }
         
@@ -971,19 +961,37 @@
             else { showSettingsModal(); }
             loadContacts(); loadMessages(); renderMessages();
             if(Notification.permission==='default') Notification.requestPermission();
-            dom.messageInput.addEventListener('input', () => { if(activeContactId && isConnected) onTypingInput(); });
         }
         
         dom.sendButton.onclick = sendText;
         dom.messageInput.onkeypress = (e) => { if(e.key==='Enter' && activeContactId && isConnected) sendText(); };
+        
         dom.settingsBtn.onclick = showSettingsModal;
         dom.settingsCancelBtn.onclick = () => { dom.settingsModal.style.display = 'none'; if(!myPhoneNumber) init(); };
-        dom.settingsSaveBtn.onclick = () => { let newPhone = dom.settingsPhoneInput.value.trim().replace(/\s/g, ''); if(!newPhone) { alert('Geçerli bir telefon numarası girin'); return; } changePhoneNumber(newPhone); dom.settingsModal.style.display = 'none'; };
-        dom.clearChatBtn.onclick = () => { clearActiveChatHistory(); dom.settingsModal.style.display = 'none'; };
-        if(dom.settingsCloseModalBtn) dom.settingsCloseModalBtn.onclick = () => { dom.settingsModal.style.display = 'none'; if(!myPhoneNumber) init(); };
-        dom.contactsMenuBtn.onclick = () => { renderContactsDropdown(); dom.contactsDropdown.style.display = 'flex'; };
+        dom.settingsSaveBtn.onclick = () => {
+            let newPhone = dom.settingsPhoneInput.value.trim().replace(/\s/g, '');
+            if(!newPhone) { alert('Geçerli bir telefon numarası girin'); return; }
+            changePhoneNumber(newPhone);
+            dom.settingsModal.style.display = 'none';
+        };
+        dom.clearChatBtn.onclick = () => {
+            clearActiveChatHistory();
+            dom.settingsModal.style.display = 'none';
+        };
+        if(dom.settingsCloseModalBtn) {
+            dom.settingsCloseModalBtn.onclick = () => {
+                dom.settingsModal.style.display = 'none';
+                if(!myPhoneNumber) init();
+            };
+        }
+        
+        dom.contactsMenuBtn.onclick = () => {
+            renderContactsDropdown();
+            dom.contactsDropdown.style.display = 'flex';
+        };
         dom.closeContactsDropdownBtn.onclick = () => { dom.contactsDropdown.style.display = 'none'; };
         dom.addContactQuickBtn.onclick = () => { openAddContactModal(); };
+        
         dom.addContactModalCancel.onclick = () => { dom.addContactModal.style.display = 'none'; };
         dom.addContactModalSave.onclick = addNewContact;
         
