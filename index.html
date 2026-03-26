@@ -275,6 +275,32 @@
         .modal-danger-btn { background: #ef4444; color: white; flex: 1; padding: 8px; border-radius: 28px; border: none; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .divider-modal { height: 1px; background: #eef2f6; margin: 16px 0 12px; }
         
+        /* Modal içine kapatma butonu eklendi */
+        .modal-close-icon {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #1e293b;
+            transition: all 0.2s;
+        }
+        .modal-close-icon:hover {
+            background: #e2e8f0;
+            transform: scale(0.96);
+        }
+        .modal-content {
+            position: relative;
+        }
+        
         /* KİŞİLERİM AÇILIR KUTU */
         .contacts-dropdown-menu {
             background: white;
@@ -480,9 +506,10 @@
         </div>
     </div>
 
-    <!-- AYARLAR MODALI (Sohbet temizle butonu eklendi) -->
+    <!-- AYARLAR MODALI (KAPATMA BUTONU EKLENDİ) -->
     <div id="settingsModal" style="display: none;" class="modal-overlay">
         <div class="modal-content">
+            <button class="modal-close-icon" id="settingsCloseModalBtn">✕</button>
             <h3>⚙️ Ayarlar</h3>
             <p>Telefon numaranız sizin benzersiz kimliğinizdir. Diğer kişiler sizi bu numara ile ekleyebilir.</p>
             <input type="tel" id="settingsPhoneInput" placeholder="Telefon numarası (Örn:5551234567)">
@@ -552,6 +579,7 @@
             settingsCancelBtn: document.getElementById('settingsCancelBtn'),
             settingsSaveBtn: document.getElementById('settingsSaveBtn'),
             clearChatBtn: document.getElementById('clearChatBtn'),
+            settingsCloseModalBtn: document.getElementById('settingsCloseModalBtn'),
             contactsDropdown: document.getElementById('contactsDropdown'),
             contactsDropdownList: document.getElementById('contactsDropdownList'),
             closeContactsDropdownBtn: document.getElementById('closeContactsDropdownBtn'),
@@ -728,7 +756,6 @@
                     setConnectedState(true);
                     updateContactStatus(contactId,'connected');
                     dom.statusBar.innerHTML = `✅ ${contactName} ile bağlantı aktif`;
-                    // Gereksiz bildirim mesajı kaldırıldı (sadece durum barında gösteriliyor)
                     flushPending(contactId);
                     updateOnlineLed();
                 }
@@ -951,6 +978,13 @@
             clearActiveChatHistory();
             dom.settingsModal.style.display = 'none';
         };
+        // Yeni eklenen kapatma butonu
+        if(dom.settingsCloseModalBtn) {
+            dom.settingsCloseModalBtn.onclick = () => {
+                dom.settingsModal.style.display = 'none';
+                if(!myPhoneNumber) init();
+            };
+        }
         
         dom.contactsMenuBtn.onclick = () => {
             renderContactsDropdown();
