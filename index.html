@@ -480,7 +480,7 @@
             </div>
         </div>
         
-        <!-- Durum çubuğu (bağlantı bildirimleri artık sadece kritik hatalar için) -->
+        <!-- Durum çubuğu (bağlantı bildirimleri) -->
         <div class="chat-header" id="statusBar">
             💬 SEYFİÇET'e hoş geldiniz
         </div>
@@ -607,7 +607,6 @@
             dom.onlineLed.className = 'online-status-led';
             if(status === 'connected') {
                 dom.onlineLed.classList.add('online');
-                // Badge'i sadece yeşil nokta göster, yazıyı tamamen kaldır
                 dom.activeBadge.style.display = 'none';
             } else if(status === 'connecting' || status === 'pending') {
                 dom.onlineLed.classList.add('connecting');
@@ -909,7 +908,6 @@
                             <div class="dropdown-contact-info">
                                 <div class="dropdown-contact-name">
                                     ${escapeHtml(contact.name)}
-                                    ${status === 'connected' ? '<span class="contact-badge-sm" style="background:#22c55e20; color:#166534;">🟢 Çevrimiçi</span>' : ''}
                                     ${pendingCount ? `<span class="pending-badge-sm">📬 ${pendingCount}</span>` : ''}
                                     ${unreadCount ? `<span class="unread-badge-sm">🔔 ${unreadCount}</span>` : ''}
                                 </div>
@@ -975,7 +973,6 @@
             clearActiveChatHistory();
             dom.settingsModal.style.display = 'none';
         };
-        // Yeni eklenen kapatma butonu
         if(dom.settingsCloseModalBtn) {
             dom.settingsCloseModalBtn.onclick = () => {
                 dom.settingsModal.style.display = 'none';
